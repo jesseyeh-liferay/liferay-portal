@@ -15,6 +15,8 @@
 import PropTypes from 'prop-types';
 import React, {useCallback} from 'react';
 
+import navigate from './navigate.es';
+
 function PageTypeSelector(props) {
 	const handleOnChange = useCallback(
 		event => {
@@ -32,7 +34,7 @@ function PageTypeSelector(props) {
 				);
 			}
 
-			Liferay.Util.navigate(window.location);
+			navigate(window.location);
 		},
 		[props.namespace]
 	);
