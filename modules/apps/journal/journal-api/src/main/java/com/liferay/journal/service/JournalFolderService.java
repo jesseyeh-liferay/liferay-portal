@@ -113,9 +113,15 @@ public interface JournalFolderService extends BaseService {
 		long groupId, long userId, long folderId, int status, int start,
 		int end, OrderByComparator<?> obc);
 
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Object> getFoldersAndArticles(
 		long groupId, long userId, long folderId, int status, Locale locale,
+		int start, int end, OrderByComparator<?> obc);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Object> getFoldersAndArticles(
+		long groupId, long userId, long folderId, int[] statuses, Locale locale,
 		int start, int end, OrderByComparator<?> obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

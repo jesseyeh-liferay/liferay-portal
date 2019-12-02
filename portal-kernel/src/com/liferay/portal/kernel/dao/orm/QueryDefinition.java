@@ -14,6 +14,7 @@
 
 package com.liferay.portal.kernel.dao.orm;
 
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.TableNameOrderByComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -95,6 +96,25 @@ public class QueryDefinition<T> {
 		setOrderByComparator(orderByComparator);
 	}
 
+	public QueryDefinition(
+		int[] statuses, long ownerUserId, boolean includeOwner, int start,
+		int end, OrderByComparator<T> orderByComparator) {
+
+		if (ArrayUtil.contains(statuses, WorkflowConstants.STATUS_ANY)) {
+			setStatuses(new int[] {WorkflowConstants.STATUS_IN_TRASH}, true);
+		}
+		else {
+			setStatuses(statuses);
+		}
+
+		_ownerUserId = ownerUserId;
+		_includeOwner = includeOwner;
+		_start = start;
+		_end = end;
+
+		setOrderByComparator(orderByComparator);
+	}
+
 	public Serializable getAttribute(String name) {
 		if (_attributes == null) {
 			return null;
@@ -131,8 +151,13 @@ public class QueryDefinition<T> {
 		return _start;
 	}
 
+	@Deprecated
 	public int getStatus() {
 		return _status;
+	}
+
+	public int[] getStatuses() {
+		return _statuses;
 	}
 
 	public boolean isExcludeStatus() {
@@ -175,22 +200,40 @@ public class QueryDefinition<T> {
 		_start = start;
 	}
 
+	@Deprecated
 	public void setStatus(int status) {
 		setStatus(status, false);
 	}
 
+	@Deprecated
 	public void setStatus(int status, boolean exclude) {
 		_excludeStatus = exclude;
 		_status = status;
 	}
 
+	public void setStatuses(int... statuses) {
+		_statuses = statuses;
+	}
+
+	public void setStatuses(int[] statuses, boolean exclude) {
+		_excludeStatus = exclude;
+		_statuses = statuses;
+	}
+
 	private Map<String, Serializable> _attributes;
 	private int _end = QueryUtil.ALL_POS;
+
+	@Deprecated
 	private boolean _excludeStatus;
+
 	private boolean _includeOwner;
 	private OrderByComparator<T> _orderByComparator;
 	private long _ownerUserId;
 	private int _start = QueryUtil.ALL_POS;
+
+	@Deprecated
 	private int _status = WorkflowConstants.STATUS_ANY;
+
+	private int[] _statuses = {getStatus()};
 
 }

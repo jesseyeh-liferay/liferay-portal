@@ -342,7 +342,10 @@ public class JournalFolderFinderImpl
 			QueryPos qPos = QueryPos.getInstance(q);
 
 			qPos.add(groupId);
-			qPos.add(queryDefinition.getStatus());
+
+			for (int status : queryDefinition.getStatuses()) {
+				qPos.add(status);
+			}
 
 			if (folderId >= 0) {
 				qPos.add(folderId);
@@ -355,7 +358,9 @@ public class JournalFolderFinderImpl
 				qPos.add(WorkflowConstants.STATUS_IN_TRASH);
 			}
 
-			qPos.add(queryDefinition.getStatus());
+			for (int status : queryDefinition.getStatuses()) {
+				qPos.add(status);
+			}
 
 			if (folderId >= 0) {
 				qPos.add(folderId);

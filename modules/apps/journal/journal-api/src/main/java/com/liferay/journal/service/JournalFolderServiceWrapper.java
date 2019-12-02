@@ -156,6 +156,7 @@ public class JournalFolderServiceWrapper
 			groupId, userId, folderId, status, start, end, obc);
 	}
 
+	@Deprecated
 	@Override
 	public java.util.List<Object> getFoldersAndArticles(
 		long groupId, long userId, long folderId, int status,
@@ -164,6 +165,16 @@ public class JournalFolderServiceWrapper
 
 		return _journalFolderService.getFoldersAndArticles(
 			groupId, userId, folderId, status, locale, start, end, obc);
+	}
+
+	@Override
+	public java.util.List<Object> getFoldersAndArticles(
+		long groupId, long userId, long folderId, int[] statuses,
+		java.util.Locale locale, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<?> obc) {
+
+		return _journalFolderService.getFoldersAndArticles(
+			groupId, userId, folderId, statuses, locale, start, end, obc);
 	}
 
 	@Override
