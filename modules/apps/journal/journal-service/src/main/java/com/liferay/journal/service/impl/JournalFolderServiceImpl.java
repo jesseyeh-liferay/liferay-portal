@@ -212,6 +212,18 @@ public class JournalFolderServiceImpl extends JournalFolderServiceBaseImpl {
 	}
 
 	@Override
+	public List<Object> getFoldersAndArticles(
+		long groupId, long userId, long folderId, int[] statuses, Locale locale,
+		int start, int end, OrderByComparator<?> obc) {
+
+		QueryDefinition<?> queryDefinition = new QueryDefinition<>(
+			statuses, userId, true, start, end, (OrderByComparator<Object>)obc);
+
+		return journalFolderFinder.filterFindF_A_ByG_F_L(
+			groupId, folderId, locale, queryDefinition);
+	}
+
+	@Override
 	public int getFoldersAndArticlesCount(
 		long groupId, List<Long> folderIds, int status) {
 

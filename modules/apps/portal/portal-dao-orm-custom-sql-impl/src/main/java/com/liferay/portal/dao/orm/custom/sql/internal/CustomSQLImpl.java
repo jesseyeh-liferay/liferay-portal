@@ -169,21 +169,15 @@ public class CustomSQLImpl implements CustomSQL {
 			tableName = tableName.concat(StringPool.PERIOD);
 		}
 
-		if (queryDefinition.getStatus() == WorkflowConstants.STATUS_ANY) {
+		if (ArrayUtil.contains(
+				queryDefinition.getStatuses(), WorkflowConstants.STATUS_ANY)) {
+
 			sql = StringUtil.replace(
 				sql, _STATUS_KEYWORD, _STATUS_CONDITION_EMPTY);
 		}
 		else {
-			if (queryDefinition.isExcludeStatus()) {
-				sql = StringUtil.replace(
-					sql, _STATUS_KEYWORD,
-					tableName.concat(_STATUS_CONDITION_INVERSE));
-			}
-			else {
-				sql = StringUtil.replace(
-					sql, _STATUS_KEYWORD,
-					tableName.concat(_STATUS_CONDITION_DEFAULT));
-			}
+			sql = StringUtil.replace(
+				sql, _STATUS_KEYWORD, _getStatusesSQL(queryDefinition));
 		}
 
 		if (queryDefinition.getOwnerUserId() > 0) {
@@ -900,6 +894,30 @@ public class CustomSQLImpl implements CustomSQL {
 		}
 
 		return new CustomSQLContainer(classLoader, sourceURL);
+	}
+
+	private String _getStatusesSQL(QueryDefinition<?> queryDefinition) {
+		String prefix = "";
+		String statusCondition;
+
+		if (queryDefinition.isExcludeStatuses()) {
+			statusCondition = _STATUS_CONDITION_INVERSE;
+		}
+		else {
+			statusCondition = _STATUS_CONDITION_DEFAULT;
+		}
+
+		StringBundler sb = new StringBundler();
+
+		int[] statuses = queryDefinition.getStatuses();
+
+		for (int i = 0; i < statuses.length; i++) {
+			sb.append(prefix);
+			prefix = queryDefinition.isExcludeStatuses() ? " AND " : " OR ";
+			sb.append(statusCondition);
+		}
+
+		return sb.toString();
 	}
 
 	private void _read(
