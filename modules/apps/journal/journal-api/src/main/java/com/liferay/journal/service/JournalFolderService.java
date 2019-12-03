@@ -119,6 +119,11 @@ public interface JournalFolderService extends BaseService {
 		int start, int end, OrderByComparator<?> obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Object> getFoldersAndArticles(
+		long groupId, long userId, long folderId, int[] statuses, Locale locale,
+		int start, int end, OrderByComparator<?> obc);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getFoldersAndArticlesCount(
 		long groupId, List<Long> folderIds, int status);
 
