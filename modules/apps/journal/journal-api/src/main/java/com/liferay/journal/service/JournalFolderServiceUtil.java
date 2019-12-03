@@ -159,6 +159,15 @@ public class JournalFolderServiceUtil {
 			groupId, userId, folderId, status, locale, start, end, obc);
 	}
 
+	public static java.util.List<Object> getFoldersAndArticles(
+		long groupId, long userId, long folderId, int[] statuses,
+		java.util.Locale locale, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<?> obc) {
+
+		return getService().getFoldersAndArticles(
+			groupId, userId, folderId, statuses, locale, start, end, obc);
+	}
+
 	public static int getFoldersAndArticlesCount(
 		long groupId, java.util.List<Long> folderIds, int status) {
 
