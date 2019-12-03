@@ -15,6 +15,7 @@
 package com.liferay.item.selector.criteria.info.item.criterion;
 
 import com.liferay.item.selector.BaseItemSelectorCriterion;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 /**
@@ -34,8 +35,17 @@ public class InfoItemItemSelectorCriterion extends BaseItemSelectorCriterion {
 		return _mimeTypes;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getStatuses()}
+	 */
+	@Deprecated
 	public int getStatus() {
 		return _status;
+	}
+
+	public int[] getStatuses() {
+		return _statuses;
 	}
 
 	public void setItemSubtype(String itemSubtype) {
@@ -50,13 +60,38 @@ public class InfoItemItemSelectorCriterion extends BaseItemSelectorCriterion {
 		_mimeTypes = mimeTypes;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #setStatuses(int...)}
+	 */
+	@Deprecated
 	public void setStatus(int status) {
 		_status = status;
+		setStatuses(status);
+	}
+
+	public void setStatuses(int... statuses) {
+		if ((statuses.length > 1) &&
+			ArrayUtil.contains(statuses, WorkflowConstants.STATUS_ANY)) {
+
+			_statuses = new int[] {WorkflowConstants.STATUS_ANY};
+		}
+		else {
+			_statuses = statuses;
+		}
 	}
 
 	private String _itemSubtype;
 	private String _itemType;
 	private String[] _mimeTypes;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #_statuses}
+	 */
+	@Deprecated
 	private int _status = WorkflowConstants.STATUS_APPROVED;
+
+	private int[] _statuses = {getStatus()};
 
 }

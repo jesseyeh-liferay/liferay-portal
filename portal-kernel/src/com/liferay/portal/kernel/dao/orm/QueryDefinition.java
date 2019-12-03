@@ -14,6 +14,7 @@
 
 package com.liferay.portal.kernel.dao.orm;
 
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.TableNameOrderByComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -95,6 +96,25 @@ public class QueryDefinition<T> {
 		setOrderByComparator(orderByComparator);
 	}
 
+	public QueryDefinition(
+		int[] statuses, long ownerUserId, boolean includeOwner, int start,
+		int end, OrderByComparator<T> orderByComparator) {
+
+		if (ArrayUtil.contains(statuses, WorkflowConstants.STATUS_ANY)) {
+			setStatuses(new int[] {WorkflowConstants.STATUS_IN_TRASH}, true);
+		}
+		else {
+			setStatuses(statuses);
+		}
+
+		_ownerUserId = ownerUserId;
+		_includeOwner = includeOwner;
+		_start = start;
+		_end = end;
+
+		setOrderByComparator(orderByComparator);
+	}
+
 	public Serializable getAttribute(String name) {
 		if (_attributes == null) {
 			return null;
@@ -131,12 +151,30 @@ public class QueryDefinition<T> {
 		return _start;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getStatuses()}
+	 */
+	@Deprecated
 	public int getStatus() {
 		return _status;
 	}
 
+	public int[] getStatuses() {
+		return _statuses;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #isExcludeStatuses()}
+	 */
+	@Deprecated
 	public boolean isExcludeStatus() {
 		return _excludeStatus;
+	}
+
+	public boolean isExcludeStatuses() {
+		return _excludeStatuses;
 	}
 
 	public boolean isIncludeOwner() {
@@ -175,22 +213,58 @@ public class QueryDefinition<T> {
 		_start = start;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #setStatuses(int...)}
+	 */
+	@Deprecated
 	public void setStatus(int status) {
 		setStatus(status, false);
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #setStatuses(int[], boolean)}
+	 */
+	@Deprecated
 	public void setStatus(int status, boolean exclude) {
 		_excludeStatus = exclude;
 		_status = status;
+		setStatuses(new int[] {status}, exclude);
+	}
+
+	public void setStatuses(int... statuses) {
+		setStatuses(statuses, false);
+	}
+
+	public void setStatuses(int[] statuses, boolean exclude) {
+		_excludeStatuses = exclude;
+		_statuses = statuses;
 	}
 
 	private Map<String, Serializable> _attributes;
 	private int _end = QueryUtil.ALL_POS;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #_excludeStatuses}
+	 */
+	@Deprecated
 	private boolean _excludeStatus;
+
+	private boolean _excludeStatuses;
 	private boolean _includeOwner;
 	private OrderByComparator<T> _orderByComparator;
 	private long _ownerUserId;
 	private int _start = QueryUtil.ALL_POS;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #_statuses}
+	 */
+	@Deprecated
 	private int _status = WorkflowConstants.STATUS_ANY;
+
+	private int[] _statuses = {getStatus()};
 
 }
