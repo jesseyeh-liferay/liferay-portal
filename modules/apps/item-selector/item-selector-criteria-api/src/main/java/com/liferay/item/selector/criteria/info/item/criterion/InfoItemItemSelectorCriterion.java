@@ -35,7 +35,7 @@ public class InfoItemItemSelectorCriterion extends BaseItemSelectorCriterion {
 	}
 
 	public int getStatus() {
-		return _status;
+		return _myStatus;
 	}
 
 	public void setItemSubtype(String itemSubtype) {
@@ -51,12 +51,12 @@ public class InfoItemItemSelectorCriterion extends BaseItemSelectorCriterion {
 	}
 
 	public void setStatus(int status) {
-		_status = status;
+		_myStatus = status;
 	}
 
 	private String _itemSubtype;
 	private String _itemType;
 	private String[] _mimeTypes;
-	private int _status = WorkflowConstants.STATUS_APPROVED;
+	private int _myStatus = WorkflowConstants.STATUS_APPROVED;
 
 }
