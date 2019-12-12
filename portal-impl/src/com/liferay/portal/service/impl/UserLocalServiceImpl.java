@@ -81,6 +81,7 @@ import com.liferay.portal.kernel.model.UserGroup;
 import com.liferay.portal.kernel.model.UserGroupRole;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.BaseModelSearchResult;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
@@ -3017,6 +3018,14 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		long companyId, String keywords, int status,
 		LinkedHashMap<String, Object> params, int start, int end,
 		OrderByComparator<User> obc) {
+		return search(companyId, 0, keywords, status, params, start, end, obc);
+	}
+
+	@Override
+	public List<User> search(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params, int start, int end,
+		OrderByComparator<User> obc) {
 
 		Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(User.class);
 
@@ -3030,7 +3039,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		try {
 			return UsersAdminUtil.getUsers(
 				search(
-					companyId, keywords, status, params, start, end,
+					companyId, groupId, keywords, status, params, start, end,
 					getSorts(obc)));
 		}
 		catch (Exception e) {
@@ -3081,6 +3090,15 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		long companyId, String keywords, int status,
 		LinkedHashMap<String, Object> params, int start, int end,
 		Sort[] sorts) {
+		return search(
+			companyId, 0, keywords, status, params, start, end, sorts);
+	}
+
+	@Override
+	public Hits search(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params, int start, int end,
+		Sort[] sorts) {
 
 		String firstName = null;
 		String middleName = null;
@@ -3121,7 +3139,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 				User.class);
 
 			SearchContext searchContext = buildSearchContext(
-				companyId, firstName, middleName, lastName, fullName,
+				companyId, groupId, firstName, middleName, lastName, fullName,
 				screenName, emailAddress, street, city, zip, region, country,
 				status, params, andOperator, start, end, sorts);
 
@@ -3289,6 +3307,13 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 	public int searchCount(
 		long companyId, String keywords, int status,
 		LinkedHashMap<String, Object> params) {
+		return searchCount(companyId, 0, keywords, status, params);
+	}
+
+	@Override
+	public int searchCount(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params) {
 
 		Indexer<?> indexer = IndexerRegistryUtil.nullSafeGetIndexer(User.class);
 
@@ -3335,7 +3360,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			}
 
 			SearchContext searchContext = buildSearchContext(
-				companyId, firstName, middleName, lastName, fullName,
+				companyId, groupId, firstName, middleName, lastName, fullName,
 				screenName, emailAddress, street, city, zip, region, country,
 				status, params, andOperator, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS, null);
@@ -5696,6 +5721,19 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		String city, String zip, String region, String country, int status,
 		LinkedHashMap<String, Object> params, boolean andSearch, int start,
 		int end, Sort[] sorts) {
+		return buildSearchContext(
+			companyId, 0, firstName, middleName, lastName, fullName, screenName,
+			emailAddress, street, city, zip, region, country, status, params,
+			andSearch, start, end, sorts);
+	}
+
+	protected SearchContext buildSearchContext(
+		long companyId, long groupId, String firstName, String middleName,
+		String lastName,
+		String fullName, String screenName, String emailAddress, String street,
+		String city, String zip, String region, String country, int status,
+		LinkedHashMap<String, Object> params, boolean andSearch, int start,
+		int end, Sort[] sorts) {
 
 		SearchContext searchContext = new SearchContext();
 
@@ -5703,6 +5741,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		Map<String, Serializable> attributes = new HashMap<>();
 
+		attributes.put(Field.GROUP_ID, groupId);
 		attributes.put("city", city);
 		attributes.put("country", country);
 		attributes.put("emailAddress", emailAddress);
