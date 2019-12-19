@@ -1568,6 +1568,181 @@ public interface UserLocalService
 	/**
 	 * Returns an ordered range of all the users who match the keywords and
 	 * status, without using the indexer. It is preferable to use the indexed
+	 * version {@link #search(long, long, String, int, LinkedHashMap, int, int, Sort)}
+	 * instead of this method wherever possible for performance reasons.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end -
+	 * start</code> instances. <code>start</code> and <code>end</code> are not
+	 * primary keys, they are indexes in the result set. Thus, <code>0</code>
+	 * refers to the first result in the set. Setting both <code>start</code>
+	 * and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full
+	 * result set.
+	 * </p>
+	 *
+	 * @param companyId the primary key of the user's company
+	 * @param groupId the primary key of the user's group
+	 * @param keywords the keywords (space separated), which may occur in the
+	 user's first name, middle name, last name, screen name, or email
+	 address
+	 * @param status the workflow status
+	 * @param params the finder parameters (optionally <code>null</code>). For
+	 more information see {@link
+	 com.liferay.portal.kernel.service.persistence.UserFinder}.
+	 * @param start the lower bound of the range of users
+	 * @param end the upper bound of the range of users (not inclusive)
+	 * @param obc the comparator to order the users by (optionally
+	 <code>null</code>)
+	 * @return the matching users
+	 * @see com.liferay.portal.kernel.service.persistence.UserFinder
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<User> search(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params, int start, int end,
+		OrderByComparator<User> obc);
+
+	/**
+	 * Returns an ordered range of all the users who match the keywords and
+	 * status, using the indexer. It is preferable to use this method instead of
+	 * the non-indexed version whenever possible for performance reasons.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end -
+	 * start</code> instances. <code>start</code> and <code>end</code> are not
+	 * primary keys, they are indexes in the result set. Thus, <code>0</code>
+	 * refers to the first result in the set. Setting both <code>start</code>
+	 * and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full
+	 * result set.
+	 * </p>
+	 *
+	 * @param companyId the primary key of the user's company
+	 * @param groupId the primary key of the user's group
+	 * @param keywords the keywords (space separated), which may occur in the
+	 user's first name, middle name, last name, screen name, or email
+	 address
+	 * @param status the workflow status
+	 * @param params the indexer parameters (optionally <code>null</code>). For
+	 more information see {@link
+	 com.liferay.portlet.usersadmin.util.UserIndexer}.
+	 * @param start the lower bound of the range of users
+	 * @param end the upper bound of the range of users (not inclusive)
+	 * @param sort the field and direction to sort by (optionally
+	 <code>null</code>)
+	 * @return the matching users
+	 * @see com.liferay.portlet.usersadmin.util.UserIndexer
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Hits search(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params, int start, int end, Sort sort);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Hits search(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params, int start, int end, Sort[] sorts);
+
+	/**
+	 * Returns an ordered range of all the users with the status, and whose
+	 * first name, middle name, last name, screen name, and email address match
+	 * the keywords specified for them, without using the indexer. It is
+	 * preferable to use the indexed version {@link #search(long, long, String,
+	 * String, String, String, String, int, LinkedHashMap, boolean, int, int,
+	 * Sort)} instead of this method wherever possible for performance reasons.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end -
+	 * start</code> instances. <code>start</code> and <code>end</code> are not
+	 * primary keys, they are indexes in the result set. Thus, <code>0</code>
+	 * refers to the first result in the set. Setting both <code>start</code>
+	 * and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full
+	 * result set.
+	 * </p>
+	 *
+	 * @param companyId the primary key of the user's company
+	 * @param groupId the primary key of the user's group
+	 * @param firstName the first name keywords (space separated)
+	 * @param middleName the middle name keywords
+	 * @param lastName the last name keywords
+	 * @param screenName the screen name keywords
+	 * @param emailAddress the email address keywords
+	 * @param status the workflow status
+	 * @param params the finder parameters (optionally <code>null</code>). For
+	 more information see {@link
+	 com.liferay.portal.kernel.service.persistence.UserFinder}.
+	 * @param andSearch whether every field must match its keywords, or just
+	 one field. For example, &quot;users with the first name 'bob' and
+	 last name 'smith'&quot; vs &quot;users with the first name 'bob'
+	 or the last name 'smith'&quot;.
+	 * @param start the lower bound of the range of users
+	 * @param end the upper bound of the range of users (not inclusive)
+	 * @param obc the comparator to order the users by (optionally
+	 <code>null</code>)
+	 * @return the matching users
+	 * @see com.liferay.portal.kernel.service.persistence.UserFinder
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<User> search(
+		long companyId, long groupId, String firstName, String middleName,
+		String lastName, String screenName, String emailAddress, int status,
+		LinkedHashMap<String, Object> params, boolean andSearch, int start,
+		int end, OrderByComparator<User> obc);
+
+	/**
+	 * Returns an ordered range of all the users with the status, and whose
+	 * first name, middle name, last name, screen name, and email address match
+	 * the keywords specified for them, using the indexer. It is preferable to
+	 * use this method instead of the non-indexed version whenever possible for
+	 * performance reasons.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end -
+	 * start</code> instances. <code>start</code> and <code>end</code> are not
+	 * primary keys, they are indexes in the result set. Thus, <code>0</code>
+	 * refers to the first result in the set. Setting both <code>start</code>
+	 * and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full
+	 * result set.
+	 * </p>
+	 *
+	 * @param companyId the primary key of the user's company
+	 * @param groupId the primary key of the user's group
+	 * @param firstName the first name keywords (space separated)
+	 * @param middleName the middle name keywords
+	 * @param lastName the last name keywords
+	 * @param screenName the screen name keywords
+	 * @param emailAddress the email address keywords
+	 * @param status the workflow status
+	 * @param params the indexer parameters (optionally <code>null</code>). For
+	 more information see {@link
+	 com.liferay.portlet.usersadmin.util.UserIndexer}.
+	 * @param andSearch whether every field must match its keywords, or just
+	 one field. For example, &quot;users with the first name 'bob' and
+	 last name 'smith'&quot; vs &quot;users with the first name 'bob'
+	 or the last name 'smith'&quot;.
+	 * @param start the lower bound of the range of users
+	 * @param end the upper bound of the range of users (not inclusive)
+	 * @param sort the field and direction to sort by (optionally
+	 <code>null</code>)
+	 * @return the matching users
+	 * @see com.liferay.portlet.usersadmin.util.UserIndexer
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Hits search(
+		long companyId, long groupId, String firstName, String middleName,
+		String lastName, String screenName, String emailAddress, int status,
+		LinkedHashMap<String, Object> params, boolean andSearch, int start,
+		int end, Sort sort);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Hits search(
+		long companyId, long groupId, String firstName, String middleName,
+		String lastName, String screenName, String emailAddress, int status,
+		LinkedHashMap<String, Object> params, boolean andSearch, int start,
+		int end, Sort[] sorts);
+
+	/**
+	 * Returns an ordered range of all the users who match the keywords and
+	 * status, without using the indexer. It is preferable to use the indexed
 	 * version {@link #search(long, String, int, LinkedHashMap, int, int, Sort)}
 	 * instead of this method wherever possible for performance reasons.
 	 *
@@ -1740,6 +1915,53 @@ public interface UserLocalService
 	 * Returns the number of users who match the keywords and status.
 	 *
 	 * @param companyId the primary key of the user's company
+	 * @param groupId the primary key of the user's group
+	 * @param keywords the keywords (space separated), which may occur in the
+	 user's first name, middle name, last name, screen name, or email
+	 address
+	 * @param status the workflow status
+	 * @param params the finder parameters (optionally <code>null</code>). For
+	 more information see {@link
+	 com.liferay.portal.kernel.service.persistence.UserFinder}.
+	 * @return the number matching users
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int searchCount(
+		long companyId, long groupId, String keywords, int status,
+		LinkedHashMap<String, Object> params);
+
+	/**
+	 * Returns the number of users with the status, and whose first name, middle
+	 * name, last name, screen name, and email address match the keywords
+	 * specified for them.
+	 *
+	 * @param companyId the primary key of the user's company
+	 * @param groupId the primary key of the user's group
+	 * @param firstName the first name keywords (space separated)
+	 * @param middleName the middle name keywords
+	 * @param lastName the last name keywords
+	 * @param screenName the screen name keywords
+	 * @param emailAddress the email address keywords
+	 * @param status the workflow status
+	 * @param params the finder parameters (optionally <code>null</code>). For
+	 more information see {@link
+	 com.liferay.portal.kernel.service.persistence.UserFinder}.
+	 * @param andSearch whether every field must match its keywords, or just
+	 one field. For example, &quot;users with the first name 'bob' and
+	 last name 'smith'&quot; vs &quot;users with the first name 'bob'
+	 or the last name 'smith'&quot;.
+	 * @return the number of matching users
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int searchCount(
+		long companyId, long groupId, String firstName, String middleName,
+		String lastName, String screenName, String emailAddress, int status,
+		LinkedHashMap<String, Object> params, boolean andSearch);
+
+	/**
+	 * Returns the number of users who match the keywords and status.
+	 *
+	 * @param companyId the primary key of the user's company
 	 * @param keywords the keywords (space separated), which may occur in the
 	 user's first name, middle name, last name, screen name, or email
 	 address
@@ -1804,6 +2026,35 @@ public interface UserLocalService
 	public List<User> searchSocial(
 			long[] groupIds, long userId, int[] socialRelationTypes,
 			String keywords, int start, int end)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<User> searchUsers(
+			long companyId, long groupId, String keywords, int status,
+			LinkedHashMap<String, Object> params, int start, int end, Sort sort)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<User> searchUsers(
+			long companyId, long groupId, String keywords, int status,
+			LinkedHashMap<String, Object> params, int start, int end,
+			Sort[] sorts)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<User> searchUsers(
+			long companyId, long groupId, String firstName, String middleName,
+			String lastName, String screenName, String emailAddress, int status,
+			LinkedHashMap<String, Object> params, boolean andSearch, int start,
+			int end, Sort sort)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BaseModelSearchResult<User> searchUsers(
+			long companyId, long groupId, String firstName, String middleName,
+			String lastName, String screenName, String emailAddress, int status,
+			LinkedHashMap<String, Object> params, boolean andSearch, int start,
+			int end, Sort[] sorts)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
