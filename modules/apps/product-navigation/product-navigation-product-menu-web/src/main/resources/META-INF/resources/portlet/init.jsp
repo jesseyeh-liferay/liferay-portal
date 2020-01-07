@@ -31,10 +31,14 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 page import="com.liferay.petra.string.StringPool" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
 page import="com.liferay.portal.kernel.model.Group" %><%@
+page import="com.liferay.portal.kernel.model.LayoutSet" %><%@
+page import="com.liferay.portal.kernel.service.GroupLocalServiceUtil" %><%@
+page import="com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil" %><%@
 page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.SessionClicks" %><%@
 page import="com.liferay.portal.kernel.webserver.WebServerServletTokenUtil" %><%@
+page import="com.liferay.portal.util.PropsValues" %><%@
 page import="com.liferay.product.navigation.product.menu.display.context.ProductMenuDisplayContext" %><%@
 page import="com.liferay.product.navigation.product.menu.web.internal.constants.ProductNavigationProductMenuWebKeys" %><%@
 page import="com.liferay.product.navigation.product.menu.web.internal.display.context.LayoutsTreeDisplayContext" %><%@
@@ -50,4 +54,9 @@ page import="java.util.Objects" %>
 
 <%
 ProductMenuDisplayContext productMenuDisplayContext = new ProductMenuDisplayContext(liferayPortletRequest, liferayPortletResponse);
+
+long defaultGroupId = GroupLocalServiceUtil.getGroup(themeDisplay.getCompanyId(), PropsValues.VIRTUAL_HOSTS_DEFAULT_SITE_NAME).getGroupId();
+LayoutSet defaultLayoutSet = LayoutSetLocalServiceUtil.getLayoutSet(defaultGroupId, false);
+
+String defaultFriendlyURL = PortalUtil.getGroupFriendlyURL(defaultLayoutSet, themeDisplay);
 %>
