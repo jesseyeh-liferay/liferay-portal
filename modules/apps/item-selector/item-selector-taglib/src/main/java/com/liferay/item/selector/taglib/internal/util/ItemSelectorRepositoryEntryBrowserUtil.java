@@ -22,6 +22,7 @@ import com.liferay.item.selector.ItemSelectorReturnTypeResolver;
 import com.liferay.item.selector.taglib.ItemSelectorRepositoryEntryBrowserReturnTypeUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -39,10 +40,17 @@ import com.liferay.portal.kernel.util.TextFormatter;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
@@ -221,6 +229,21 @@ public class ItemSelectorRepositoryEntryBrowserUtil {
 		).put(
 			"value", value
 		);
+	}
+
+	public static void test(Map<String, Serializable> map) {
+		Set<Map.Entry<String, Serializable>> customFields = map.entrySet();
+
+		String customFieldsKeys = customFields.stream().map(x -> x.getKey()).collect(Collectors.joining(","));
+//									List<String> customFieldsValues = customFields.stream().map(x -> JSONFactoryUtil.looseSerializeDeep(x.getValue())).collect(Collectors.toList());
+		List<String> customFieldsValuesList = new ArrayList<>();
+		for (Map.Entry<String, Serializable> entry : customFields) {
+			customFieldsValuesList.add(JSONFactoryUtil.looseSerializeDeep(entry.getValue()));
+		}
+		String customFieldsValues = JSONFactoryUtil.looseSerialize(customFieldsValuesList);
+
+		String customFieldsTypes = customFields.stream().map(x -> x.getValue().getClass().getName()).collect(
+			Collectors.joining(","));
 	}
 
 }

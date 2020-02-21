@@ -117,6 +117,9 @@ const ItemSelectorPreview = ({
 				uri: editItemURL,
 				urlParams: {
 					entityURL: currentItem.url,
+					saveFileCustomFieldsKeys: currentItem.customfieldskeys,
+					saveFileCustomFieldsValues: currentItem.customfieldsvalues,
+					saveFileCustomFieldsTypes: currentItem.customfieldstypes,
 					saveFileDescription: currentItem.description,
 					saveFileName: itemTitle,
 					saveParamName: 'imageSelectorFileName',

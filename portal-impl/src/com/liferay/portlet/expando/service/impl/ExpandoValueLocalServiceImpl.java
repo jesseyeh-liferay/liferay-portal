@@ -24,6 +24,7 @@ import com.liferay.expando.kernel.model.ExpandoValue;
 import com.liferay.expando.kernel.util.ExpandoValueDeleteHandler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONDeserializerTransformer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -39,6 +40,8 @@ import com.liferay.registry.collections.ServiceTrackerList;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -50,6 +53,7 @@ import java.util.Objects;
 
 import jodd.typeconverter.TypeConverterManager;
 import jodd.typeconverter.TypeConverterManagerBean;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * @author Raymond Augé
@@ -810,6 +814,10 @@ public class ExpandoValueLocalServiceImpl
 				value.setLong((Long)attributeValue);
 			}
 			else if (type == ExpandoColumnConstants.LONG_ARRAY) {
+				if (attributeValue instanceof List) {
+					Long[] arr = (Long[])((List)attributeValue).toArray(new Long[0]);
+					attributeValue = ArrayUtils.toPrimitive(arr);
+				}
 				value.setLongArray((long[])attributeValue);
 			}
 			else if (type == ExpandoColumnConstants.NUMBER) {

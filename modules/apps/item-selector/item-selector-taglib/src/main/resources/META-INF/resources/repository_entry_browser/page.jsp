@@ -1,4 +1,7 @@
-<%--
+<%@ page import="java.io.Serializable" %>
+<%@ page import="java.util.stream.Stream" %>
+<%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.ArrayList" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -313,6 +316,27 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 
 									Map<String, Object> data = new HashMap<>();
 
+									Map<String, Serializable> customFieldsMap = fileEntry.getExpandoBridge().getAttributes();
+
+									ItemSelectorRepositoryEntryBrowserUtil.test(customFieldsMap);
+
+									Set<Map.Entry<String, Serializable>> customFields = customFieldsMap.entrySet();
+
+									String customFieldsKeys = customFields.stream().map(x -> x.getKey()).collect(Collectors.joining(","));
+//									List<String> customFieldsValues = customFields.stream().map(x -> JSONFactoryUtil.looseSerializeDeep(x.getValue())).collect(Collectors.toList());
+									List<String> customFieldsValuesList = new ArrayList<>();
+									for (Map.Entry<String, Serializable> entry : customFields) {
+										customFieldsValuesList.add(JSONFactoryUtil.looseSerializeDeep(entry.getValue()));
+									}
+									String customFieldsValues = JSONFactoryUtil.looseSerialize(customFieldsValuesList);
+
+									String customFieldsTypes = customFields.stream().map(x -> x.getValue().getClass().getName()).collect(
+										Collectors.joining(","));
+
+									data.put("customFieldsKeys", customFieldsKeys);
+									data.put("customFieldsValues", customFieldsValues);
+									data.put("customFieldsTypes", customFieldsTypes);
+//
 									data.put("description", fileEntry.getDescription());
 
 									String thumbnailSrc = DLURLHelperUtil.getThumbnailSrc(fileEntry, themeDisplay);

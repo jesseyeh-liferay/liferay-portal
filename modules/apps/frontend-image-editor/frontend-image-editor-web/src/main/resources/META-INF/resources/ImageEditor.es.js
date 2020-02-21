@@ -336,6 +336,7 @@ class ImageEditor extends PortletBase {
 	 * @protected
 	 */
 	save_(event) {
+		debugger;
 		if (!event.delegateTarget.disabled) {
 			this.getImageEditorImageBlob()
 				.then(imageBlob => this.submitBlob_(imageBlob))
@@ -393,12 +394,18 @@ class ImageEditor extends PortletBase {
 	submitBlob_(imageBlob) {
 		const saveFileName = this.saveFileName;
 		const saveParamName = this.saveParamName;
+		const saveFileCustomFieldsKeys = this.saveFileCustomFieldsKeys;
+		const saveFileCustomFieldsValues = this.saveFileCustomFieldsValues;
+		const saveFileCustomFieldsTypes = this.saveFileCustomFieldsTypes;
 		const saveFileDescription = this.saveFileDescription;
 
 		const promise = new Promise((resolve, reject) => {
 			const formData = new FormData();
 
 			formData.append(saveParamName, imageBlob, saveFileName);
+			formData.append('customFieldsKeys', saveFileCustomFieldsKeys);
+			formData.append('customFieldsValues', saveFileCustomFieldsValues);
+			formData.append('customFieldsTypes', saveFileCustomFieldsTypes);
 			formData.append('description', saveFileDescription);
 
 			this.fetch(this.saveURL, formData)
@@ -528,6 +535,30 @@ ImageEditor.STATE = {
 	 * @type {String}
 	 */
 	saveEventName: {
+		validator: core.isString
+	},
+
+	/**
+	 * Custom Fields keys of the saved image to send to the server for the save action.
+	 * @type {String}
+	 */
+	saveFileCustomFieldsKeys: {
+		validator: core.isString
+	},
+
+	/**
+	 * Custom Fields values of the saved image to send to the server for the save action.
+	 * @type {String}
+	 */
+	saveFileCustomFieldsValues: {
+		validator: core.isString
+	},
+
+	/**
+	 * Custom Fields types of the saved image to send to the server for the save action.
+	 * @type {String}
+	 */
+	saveFileCustomFieldsTypes: {
 		validator: core.isString
 	},
 

@@ -19,8 +19,12 @@ import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.document.library.kernel.util.DLValidator;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONDeserializer;
+import com.liferay.portal.kernel.json.JSONDeserializerTransformer;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -31,12 +35,20 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.upload.UniqueFileNameProvider;
 import com.liferay.upload.UploadFileEntryHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -70,6 +82,27 @@ public class DLUploadFileEntryHandler implements UploadFileEntryHandler {
 
 		String contentType = uploadPortletRequest.getContentType(
 			_PARAMETER_NAME);
+		String customFieldsKeys = uploadPortletRequest.getParameter("customFieldsKeys");
+		String customFieldsValues = uploadPortletRequest.getParameter("customFieldsValues");
+		String customFieldsTypes = uploadPortletRequest.getParameter("customFieldsTypes");
+
+		Map<String, Serializable> customFieldsMap = new HashMap<>();
+
+		String[] customFieldsKeysArray = StringUtil.split(customFieldsKeys);
+		List<String> customFieldsValuesList = (List) JSONFactoryUtil.looseDeserialize(customFieldsValues);
+		try {
+			List<Class<?>> customFieldsTypesList = Arrays.stream(StringUtil.split(customFieldsTypes)).map(x -> _getClassFromString(x)).collect(
+				Collectors.toList());
+
+			for (int i = 0; i < customFieldsValuesList.size(); i++) {
+				Serializable value = (Serializable) JSONFactoryUtil.looseDeserialize(customFieldsValuesList.get(i), customFieldsTypesList.get(i));
+				customFieldsMap.put(customFieldsKeysArray[i], value);
+			}
+		}
+		catch (Exception e) {
+
+		}
+
 		String description = uploadPortletRequest.getParameter("description");
 
 		try (InputStream inputStream = uploadPortletRequest.getFileAsStream(
@@ -82,6 +115,8 @@ public class DLUploadFileEntryHandler implements UploadFileEntryHandler {
 
 			ServiceContext serviceContext = ServiceContextFactory.getInstance(
 				DLFileEntry.class.getName(), uploadPortletRequest);
+
+			serviceContext.setExpandoBridgeAttributes(customFieldsMap);
 
 			return _dlAppService.addFileEntry(
 				themeDisplay.getScopeGroupId(), folderId, uniqueFileName,
@@ -107,6 +142,16 @@ public class DLUploadFileEntryHandler implements UploadFileEntryHandler {
 
 			return false;
 		}
+	}
+
+	private Class<?> _getClassFromString(String className) {
+		try {
+			return Class.forName(className);
+		}
+		catch (Exception e) {
+
+		}
+		return null;
 	}
 
 	private static final String _PARAMETER_NAME = "imageSelectorFileName";
