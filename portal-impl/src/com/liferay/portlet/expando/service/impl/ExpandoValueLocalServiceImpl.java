@@ -46,6 +46,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -751,6 +752,50 @@ public class ExpandoValueLocalServiceImpl
 		}
 	}
 
+	private class JsonMap<K, V> extends HashMap<K, V> {
+		public JsonMap(HashMap map) {
+			super(map);
+		}
+
+		private String SEPARATOR = "";
+		private char QUOTE = '"';
+		private char DOTS = ':';
+
+		@Override
+		public String toString() {
+			Iterator<Entry<K,V>> i = entrySet().iterator();
+			if (! i.hasNext())
+				return "{}";
+
+			StringBuilder sb = new StringBuilder();
+			sb.append('{');
+			for (;;) {
+				Entry<K,V> e = i.next();
+				K key = e.getKey();
+				V value = e.getValue();
+				sb.append(key   == this ? "(this Map)" : key);
+				sb.append(':');
+				sb.append(value == this ? "(this Map)" : value);
+				if (! i.hasNext())
+					return sb.append('}').toString();
+				sb.append(", ");
+			}
+//			StringBuilder sb = new StringBuilder();
+//			for (Map.Entry<K, V> entry : this.entrySet()) {
+//				sb.append(SEPARATOR);
+//
+//				sb.append(QUOTE);
+//				sb.append(entry.getKey());
+//				sb.append(QUOTE);
+//				sb.append(DOTS);
+//				sb.append(QUOTE);
+//				sb.append(entry.getValue());
+//				sb.append(QUOTE);
+//				SEPARATOR = ", ";
+//			}
+//			return sb.toString();
+		}
+	}
 	@Override
 	public void addValues(
 			long companyId, long classNameId, String tableName, long classPK,
@@ -800,7 +845,7 @@ public class ExpandoValueLocalServiceImpl
 			}
 			else if (type == ExpandoColumnConstants.GEOLOCATION) {
 				JSONObject geolocation = JSONFactoryUtil.createJSONObject(
-					attributeValue.toString());
+					new JsonMap((HashMap)attributeValue).toString());
 
 				value.setGeolocationJSONObject(geolocation);
 			}
