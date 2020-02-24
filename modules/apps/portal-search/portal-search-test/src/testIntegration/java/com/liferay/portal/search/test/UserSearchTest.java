@@ -15,6 +15,7 @@
 package com.liferay.portal.search.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.role.RoleConstants;
@@ -101,8 +102,8 @@ public class UserSearchTest {
 			LinkedHashMapBuilder.<String, Object>put(
 				Field.GROUP_ID, Long.valueOf(_groupAdminUser.getGroupIds()[0])
 			).build();
-		int start = 0;
-		int end = 20;
+		int start = QueryUtil.ALL_POS;
+		int end = QueryUtil.ALL_POS;
 
 		Hits hits = _userLocalService.search(
 			TestPropsValues.getCompanyId(), keywords, status, userParams, start,
