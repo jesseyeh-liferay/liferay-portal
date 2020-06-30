@@ -302,6 +302,11 @@ public class NodeImpl implements Node {
 	}
 
 	@Override
+	public String unformattedString() throws Exception {
+		return Dom4jUtil.toString(_node, null, false, false, false);
+	}
+
+	@Override
 	public String valueOf(String xPathExpression) {
 		return _node.valueOf(xPathExpression);
 	}

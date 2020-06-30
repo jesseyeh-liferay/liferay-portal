@@ -119,7 +119,7 @@ public class XMLWorkflowModelParser implements WorkflowModelParser {
 			rootElement.elementTextTrim("version"));
 
 		Definition definition = new Definition(
-			name, description, document.formattedString(), version);
+			name, description, document.unformattedString(), version);
 
 		List<Element> conditionElements = rootElement.elements("condition");
 

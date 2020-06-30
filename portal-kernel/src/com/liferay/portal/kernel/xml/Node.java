@@ -94,6 +94,8 @@ public interface Node extends Serializable {
 
 	public boolean supportsParent();
 
+	public String unformattedString() throws Exception;
+
 	public String valueOf(String xPathExpression);
 
 	public void write(Writer writer) throws IOException;

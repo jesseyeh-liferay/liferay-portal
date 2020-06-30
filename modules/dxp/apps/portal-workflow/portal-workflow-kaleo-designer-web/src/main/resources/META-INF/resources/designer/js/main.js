@@ -486,8 +486,7 @@ AUI.add(
 					}
 
 					var content = instance.get('definition');
-
-					if (!content || XMLUtil.validateDefinition(content)) {
+					if (!content || !XMLUtil.validateDefinition(content)) {
 						content = instance.getContent();
 					}
 

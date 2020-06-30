@@ -57,10 +57,20 @@ public class Dom4jUtil {
 			boolean trimText)
 		throws IOException {
 
+		return toString(node, indent, expandEmptyElements, trimText, true);
+	}
+
+	public static String toString(
+			Node node, String indent, boolean expandEmptyElements,
+			boolean trimText, boolean usePrettyPrint)
+		throws IOException {
+
 		UnsyncByteArrayOutputStream unsyncByteArrayOutputStream =
 			new UnsyncByteArrayOutputStream();
 
-		OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+		OutputFormat outputFormat =
+			usePrettyPrint ? OutputFormat.createPrettyPrint() :
+				new OutputFormat();
 
 		outputFormat.setExpandEmptyElements(expandEmptyElements);
 		outputFormat.setIndent(indent);
