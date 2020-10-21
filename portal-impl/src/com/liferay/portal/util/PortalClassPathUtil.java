@@ -53,7 +53,10 @@ public class PortalClassPathUtil {
 	public static ProcessConfig createProcessConfig(Class<?>... classes) {
 		ProcessConfig.Builder builder = new ProcessConfig.Builder();
 
-		builder.setArguments(Arrays.asList("-Djava.awt.headless=true"));
+		builder.setArguments(
+			Arrays.asList(
+				"-Dconfiguration.impl.quiet=true", "-Dexternal-properties",
+				"-Djava.awt.headless=true", "-Dsystem.properties.quiet=true"));
 
 		String classpath = _buildClassPath(classes);
 
@@ -140,7 +143,10 @@ public class PortalClassPathUtil {
 
 		ProcessConfig.Builder builder = new ProcessConfig.Builder();
 
-		builder.setArguments(Arrays.asList("-Djava.awt.headless=true"));
+		builder.setArguments(
+			Arrays.asList(
+				"-Dconfiguration.impl.quiet=true", "-Dexternal-properties",
+				"-Djava.awt.headless=true", "-Dsystem.properties.quiet=true"));
 		builder.setBootstrapClassPath(globalClassPath);
 		builder.setReactClassLoader(classLoader);
 		builder.setRuntimeClassPath(portalClassPath);
