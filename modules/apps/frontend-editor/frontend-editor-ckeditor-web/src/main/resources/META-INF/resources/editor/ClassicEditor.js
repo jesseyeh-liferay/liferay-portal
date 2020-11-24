@@ -51,6 +51,10 @@ const ClassicEditor = ({
 			if (CKEDITOR.env.gecko && CKEDITOR.tools.trim(data) === '<br />') {
 				data = '';
 			}
+
+			if (CKEDITOR.env.webkit) {
+				data = data.replace(/(\u200B){7}/, '');
+			}
 		}
 
 		return data;
