@@ -52,9 +52,7 @@ const ClassicEditor = ({
 				data = '';
 			}
 
-			if (CKEDITOR.env.webkit) {
-				data = data.replace(/(\u200B){7}/, '');
-			}
+			data = data.replace(/(\u200B){7}/, '');
 		}
 
 		return data;
