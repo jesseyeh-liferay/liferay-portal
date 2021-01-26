@@ -55,7 +55,7 @@ import com.liferay.portal.util.PropsValues;
 import com.liferay.staging.StagingGroupHelper;
 
 import java.net.InetAddress;
-import java.net.URL;
+import java.net.URI;
 
 import java.util.Locale;
 import java.util.Map;
@@ -1012,18 +1012,18 @@ public class LayoutReferencesExportImportContentProcessor
 		throws PortalException {
 
 		try {
-			URL urlObject = new URL(url);
+			URI uriObject = new URI(url);
 
 			if (InetAddressUtil.isLocalInetAddress(
-					InetAddress.getByName(urlObject.getHost()))) {
+					InetAddress.getByName(uriObject.getHost()))) {
 
 				StringBundler sb = new StringBundler(5);
 
-				sb.append(urlObject.getProtocol());
+				sb.append(uriObject.getScheme());
 				sb.append("://");
-				sb.append(urlObject.getHost());
+				sb.append(uriObject.getHost());
 				sb.append(StringPool.COLON);
-				sb.append(urlObject.getPort());
+				sb.append(uriObject.getPort());
 
 				return sb.toString();
 			}
