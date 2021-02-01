@@ -6714,18 +6714,21 @@ public class PortalImpl implements Portal {
 			}
 		}
 
+		boolean addSessionError = true;
 		String redirect = null;
 
 		if ((exception instanceof NoSuchGroupException) &&
 			Validator.isNotNull(
 				PropsValues.SITES_FRIENDLY_URL_PAGE_NOT_FOUND)) {
 
+			addSessionError = false;
 			redirect = PropsValues.SITES_FRIENDLY_URL_PAGE_NOT_FOUND;
 		}
 		else if ((exception instanceof NoSuchLayoutException) &&
 				 Validator.isNotNull(
 					 PropsValues.LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND)) {
 
+			addSessionError = false;
 			redirect = PropsValues.LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND;
 		}
 		else if (PropsValues.LAYOUT_SHOW_HTTP_STATUS) {
@@ -6762,7 +6765,9 @@ public class PortalImpl implements Portal {
 
 			httpServletResponse.setStatus(status);
 
-			SessionErrors.add(session, exception.getClass(), exception);
+			if (addSessionError) {
+				SessionErrors.add(session, exception.getClass(), exception);
+			}
 
 			ServletContext servletContext = session.getServletContext();
 
