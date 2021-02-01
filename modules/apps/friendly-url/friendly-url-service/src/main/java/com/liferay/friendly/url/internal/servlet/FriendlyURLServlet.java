@@ -179,14 +179,6 @@ public class FriendlyURLServlet extends HttpServlet {
 
 			httpServletRequest.setAttribute(WebKeys.LAYOUT, layout);
 
-			if (Objects.equals(
-					httpServletRequest.getRequestURI(),
-					PropsValues.LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND)) {
-
-				SessionErrors.remove(
-					httpServletRequest, NoSuchLayoutException.class);
-			}
-
 			String layoutFriendlyURLSeparatorCompositeFriendlyURL =
 				layoutFriendlyURLSeparatorComposite.getFriendlyURL();
 
