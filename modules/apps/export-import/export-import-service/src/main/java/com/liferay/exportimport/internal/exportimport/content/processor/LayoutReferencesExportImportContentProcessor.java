@@ -1012,9 +1012,10 @@ public class LayoutReferencesExportImportContentProcessor
 		throws PortalException {
 
 		try {
-			URI uri = new URI(url);
+			URI uri = _http.getURI(url);
 
-			if (InetAddressUtil.isLocalInetAddress(
+			if ((uri != null) &&
+				InetAddressUtil.isLocalInetAddress(
 					InetAddress.getByName(uri.getHost()))) {
 
 				StringBundler sb = new StringBundler(5);
