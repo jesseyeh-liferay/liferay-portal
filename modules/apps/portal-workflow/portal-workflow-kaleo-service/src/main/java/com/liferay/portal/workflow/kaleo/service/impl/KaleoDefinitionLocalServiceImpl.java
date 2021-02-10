@@ -20,6 +20,7 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.workflow.WorkflowException;
 import com.liferay.portal.workflow.constants.WorkflowDefinitionConstants;
@@ -98,6 +99,14 @@ public class KaleoDefinitionLocalServiceImpl
 			String name, int version, ServiceContext serviceContext)
 		throws PortalException {
 
+		activateKaleoDefinition(name, getVersion(version), serviceContext);
+	}
+
+	@Override
+	public void activateKaleoDefinition(
+			String name, String version, ServiceContext serviceContext)
+		throws PortalException {
+
 		// Kaleo definition
 
 		KaleoDefinition kaleoDefinition =
@@ -133,6 +142,17 @@ public class KaleoDefinitionLocalServiceImpl
 			String scope, int version, ServiceContext serviceContext)
 		throws PortalException {
 
+		return addKaleoDefinition(
+			name, title, description, content, scope, getVersion(version),
+			serviceContext);
+	}
+
+	@Override
+	public KaleoDefinition addKaleoDefinition(
+			String name, String title, String description, String content,
+			String scope, String version, ServiceContext serviceContext)
+		throws PortalException {
+
 		// Kaleo definition
 
 		User user = userLocalService.getUser(serviceContext.getGuestOrUserId());
@@ -166,8 +186,8 @@ public class KaleoDefinitionLocalServiceImpl
 		// Kaleo definition version
 
 		_kaleoDefinitionVersionLocalService.addKaleoDefinitionVersion(
-			kaleoDefinitionId, name, title, description, content,
-			getVersion(version), serviceContext);
+			kaleoDefinitionId, name, title, description, content, version,
+			serviceContext);
 
 		return kaleoDefinition;
 	}
@@ -175,6 +195,14 @@ public class KaleoDefinitionLocalServiceImpl
 	@Override
 	public void deactivateKaleoDefinition(
 			String name, int version, ServiceContext serviceContext)
+		throws PortalException {
+
+		deactivateKaleoDefinition(name, getVersion(version), serviceContext);
+	}
+
+	@Override
+	public void deactivateKaleoDefinition(
+			String name, String version, ServiceContext serviceContext)
 		throws PortalException {
 
 		KaleoDefinition kaleoDefinition =
@@ -376,7 +404,12 @@ public class KaleoDefinitionLocalServiceImpl
 		kaleoDefinition.setDescription(description);
 		kaleoDefinition.setContent(content);
 
-		int nextVersion = kaleoDefinition.getVersion() + 1;
+		String version = kaleoDefinition.getVersion();
+
+		int currentVersion = GetterUtil.getInteger(
+			version.substring(0, version.indexOf(StringPool.PERIOD)));
+
+		String nextVersion = getVersion(currentVersion + 1);
 
 		kaleoDefinition.setVersion(nextVersion);
 
@@ -388,7 +421,7 @@ public class KaleoDefinitionLocalServiceImpl
 
 		_kaleoDefinitionVersionLocalService.addKaleoDefinitionVersion(
 			kaleoDefinitionId, kaleoDefinition.getName(), title, description,
-			content, getVersion(nextVersion), serviceContext);
+			content, nextVersion, serviceContext);
 
 		return kaleoDefinition;
 	}
