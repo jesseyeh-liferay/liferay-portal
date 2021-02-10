@@ -181,7 +181,13 @@ public class KaleoDefinitionCacheModel
 			kaleoDefinitionImpl.setScope(scope);
 		}
 
-		kaleoDefinitionImpl.setVersion(version);
+		if (version == null) {
+			kaleoDefinitionImpl.setVersion("");
+		}
+		else {
+			kaleoDefinitionImpl.setVersion(version);
+		}
+
 		kaleoDefinitionImpl.setActive(active);
 
 		kaleoDefinitionImpl.resetOriginalValues();
@@ -210,8 +216,7 @@ public class KaleoDefinitionCacheModel
 		description = objectInput.readUTF();
 		content = (String)objectInput.readObject();
 		scope = objectInput.readUTF();
-
-		version = objectInput.readInt();
+		version = objectInput.readUTF();
 
 		active = objectInput.readBoolean();
 	}
@@ -273,7 +278,12 @@ public class KaleoDefinitionCacheModel
 			objectOutput.writeUTF(scope);
 		}
 
-		objectOutput.writeInt(version);
+		if (version == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(version);
+		}
 
 		objectOutput.writeBoolean(active);
 	}
@@ -291,7 +301,7 @@ public class KaleoDefinitionCacheModel
 	public String description;
 	public String content;
 	public String scope;
-	public int version;
+	public String version;
 	public boolean active;
 
 }

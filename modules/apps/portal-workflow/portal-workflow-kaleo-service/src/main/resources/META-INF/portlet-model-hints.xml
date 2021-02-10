@@ -85,7 +85,7 @@
 			<hint-collection name="CLOB" />
 		</field>
 		<field name="scope" type="String" />
-		<field name="version" type="int" />
+		<field name="version" type="String" />
 		<field name="active" type="boolean" />
 	</model>
 	<model name="com.liferay.portal.workflow.kaleo.model.KaleoDefinitionVersion">

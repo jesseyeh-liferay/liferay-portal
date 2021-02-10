@@ -211,11 +211,11 @@ public class KaleoDefinitionSoap implements Serializable {
 		_scope = scope;
 	}
 
-	public int getVersion() {
+	public String getVersion() {
 		return _version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(String version) {
 		_version = version;
 	}
 
@@ -244,7 +244,7 @@ public class KaleoDefinitionSoap implements Serializable {
 	private String _description;
 	private String _content;
 	private String _scope;
-	private int _version;
+	private String _version;
 	private boolean _active;
 
 }

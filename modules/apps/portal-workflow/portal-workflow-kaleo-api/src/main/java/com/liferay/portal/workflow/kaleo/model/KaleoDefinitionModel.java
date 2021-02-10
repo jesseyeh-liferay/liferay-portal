@@ -371,14 +371,15 @@ public interface KaleoDefinitionModel
 	 *
 	 * @return the version of this kaleo definition
 	 */
-	public int getVersion();
+	@AutoEscape
+	public String getVersion();
 
 	/**
 	 * Sets the version of this kaleo definition.
 	 *
 	 * @param version the version of this kaleo definition
 	 */
-	public void setVersion(int version);
+	public void setVersion(String version);
 
 	/**
 	 * Returns the active of this kaleo definition.
