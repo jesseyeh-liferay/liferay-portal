@@ -65,6 +65,16 @@ public class KaleoDefinitionLocalServiceWrapper
 			name, version, serviceContext);
 	}
 
+	@Override
+	public void activateKaleoDefinition(
+			String name, String version,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_kaleoDefinitionLocalService.activateKaleoDefinition(
+			name, version, serviceContext);
+	}
+
 	/**
 	 * Adds the kaleo definition to the database. Also notifies the appropriate model listeners.
 	 *
@@ -114,6 +124,18 @@ public class KaleoDefinitionLocalServiceWrapper
 			name, title, description, content, scope, version, serviceContext);
 	}
 
+	@Override
+	public com.liferay.portal.workflow.kaleo.model.KaleoDefinition
+			addKaleoDefinition(
+				String name, String title, String description, String content,
+				String scope, String version,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _kaleoDefinitionLocalService.addKaleoDefinition(
+			name, title, description, content, scope, version, serviceContext);
+	}
+
 	/**
 	 * Creates a new kaleo definition with the primary key. Does not add the kaleo definition to the database.
 	 *
@@ -142,6 +164,16 @@ public class KaleoDefinitionLocalServiceWrapper
 	@Override
 	public void deactivateKaleoDefinition(
 			String name, int version,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_kaleoDefinitionLocalService.deactivateKaleoDefinition(
+			name, version, serviceContext);
+	}
+
+	@Override
+	public void deactivateKaleoDefinition(
+			String name, String version,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 

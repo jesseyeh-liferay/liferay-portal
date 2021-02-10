@@ -75,6 +75,10 @@ public interface KaleoDefinitionLocalService
 			String name, int version, ServiceContext serviceContext)
 		throws PortalException;
 
+	public void activateKaleoDefinition(
+			String name, String version, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * Adds the kaleo definition to the database. Also notifies the appropriate model listeners.
 	 *
@@ -104,6 +108,11 @@ public interface KaleoDefinitionLocalService
 			String scope, int version, ServiceContext serviceContext)
 		throws PortalException;
 
+	public KaleoDefinition addKaleoDefinition(
+			String name, String title, String description, String content,
+			String scope, String version, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * Creates a new kaleo definition with the primary key. Does not add the kaleo definition to the database.
 	 *
@@ -121,6 +130,10 @@ public interface KaleoDefinitionLocalService
 
 	public void deactivateKaleoDefinition(
 			String name, int version, ServiceContext serviceContext)
+		throws PortalException;
+
+	public void deactivateKaleoDefinition(
+			String name, String version, ServiceContext serviceContext)
 		throws PortalException;
 
 	public void deleteCompanyKaleoDefinitions(long companyId);
