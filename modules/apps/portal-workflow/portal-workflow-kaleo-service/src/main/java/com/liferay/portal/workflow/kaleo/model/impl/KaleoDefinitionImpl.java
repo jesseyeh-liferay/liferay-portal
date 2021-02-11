@@ -14,7 +14,9 @@
 
 package com.liferay.portal.workflow.kaleo.model.impl;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.workflow.kaleo.model.KaleoDefinitionVersion;
 import com.liferay.portal.workflow.kaleo.service.KaleoDefinitionVersionLocalServiceUtil;
 
@@ -34,6 +36,12 @@ public class KaleoDefinitionImpl extends KaleoDefinitionBaseImpl {
 
 		return KaleoDefinitionVersionLocalServiceUtil.
 			getKaleoDefinitionVersions(getCompanyId(), getName());
+	}
+
+	@Override
+	public int getVersionAsInt() {
+		return GetterUtil.getInteger(
+			getVersion().substring(0, getVersion().indexOf(StringPool.PERIOD)));
 	}
 
 }

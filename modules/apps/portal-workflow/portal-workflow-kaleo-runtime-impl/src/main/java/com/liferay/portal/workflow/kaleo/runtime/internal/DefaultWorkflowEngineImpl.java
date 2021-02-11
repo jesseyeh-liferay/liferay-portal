@@ -155,7 +155,7 @@ public class DefaultWorkflowEngineImpl
 						getWorkflowDefinitionLinks(
 							serviceContext.getCompanyId(),
 							kaleoDefinition.getName(),
-							kaleoDefinition.getVersion());
+							kaleoDefinition.getVersionAsInt());
 
 				for (WorkflowDefinitionLink workflowDefinitionLink :
 						workflowDefinitionLinks) {
