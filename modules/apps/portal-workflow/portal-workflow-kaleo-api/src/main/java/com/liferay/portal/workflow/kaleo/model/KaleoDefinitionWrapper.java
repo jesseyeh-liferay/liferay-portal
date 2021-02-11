@@ -407,6 +407,11 @@ public class KaleoDefinitionWrapper
 		return model.getVersion();
 	}
 
+	@Override
+	public int getVersionAsInt() {
+		return model.getVersionAsInt();
+	}
+
 	/**
 	 * Returns <code>true</code> if this kaleo definition is active.
 	 *
