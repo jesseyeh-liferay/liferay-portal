@@ -247,6 +247,22 @@ public class FragmentEntryLinkExportImportContentProcessor
 		}
 	}
 
+	private void _replaceClassPK(
+		JSONObject configurationValueJSONObject,
+		PortletDataContext portletDataContext) {
+
+		String className = configurationValueJSONObject.getString("className");
+
+		Map<Long, Long> primaryKeys =
+			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(className);
+
+		long classPK = configurationValueJSONObject.getLong("classPK");
+
+		classPK = MapUtil.getLong(primaryKeys, classPK, classPK);
+
+		configurationValueJSONObject.put("classPK", classPK);
+	}
+
 	private void _replaceConfigurationExportContentReferences(
 			JSONObject editableValuesJSONObject,
 			boolean exportReferencedContent,
@@ -302,11 +318,16 @@ public class FragmentEntryLinkExportImportContentProcessor
 			JSONObject configurationValueJSONObject =
 				editableProcessorJSONObject.getJSONObject(editableKey);
 
-			if ((configurationValueJSONObject != null) &&
-				configurationValueJSONObject.has("siteNavigationMenuId")) {
+			if (configurationValueJSONObject != null) {
+				if (configurationValueJSONObject.has("siteNavigationMenuId")) {
+					_replaceSiteNavigationMenuIds(
+						configurationValueJSONObject, portletDataContext);
+				}
 
-				_replaceSiteNavigationMenuIds(
-					configurationValueJSONObject, portletDataContext);
+				if (configurationValueJSONObject.has("classPK")) {
+					_replaceClassPK(
+						configurationValueJSONObject, portletDataContext);
+				}
 			}
 		}
 	}
