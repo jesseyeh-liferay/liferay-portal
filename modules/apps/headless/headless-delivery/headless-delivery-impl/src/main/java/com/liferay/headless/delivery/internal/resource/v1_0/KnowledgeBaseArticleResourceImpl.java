@@ -194,13 +194,20 @@ public class KnowledgeBaseArticleResourceImpl
 				BooleanFilter booleanFilter =
 					booleanQuery.getPreBooleanFilter();
 
-				booleanFilter.add(
-					new TermFilter(
-						Field.FOLDER_ID,
-						String.valueOf(kbFolder.getKbFolderId())),
-					BooleanClauseOccur.MUST);
+				if (GetterUtil.getBoolean(flatten)) {
+					booleanFilter.add(
+						new TermFilter(
+							Field.TREE_PATH,
+							String.valueOf(kbFolder.getKbFolderId())),
+						BooleanClauseOccur.MUST);
+				}
+				else {
+					booleanFilter.add(
+						new TermFilter(
+							Field.FOLDER_ID,
+							String.valueOf(kbFolder.getKbFolderId())),
+						BooleanClauseOccur.MUST);
 
-				if (!GetterUtil.getBoolean(flatten)) {
 					booleanFilter.add(
 						new TermFilter(
 							"parentMessageId",

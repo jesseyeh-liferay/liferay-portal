@@ -23,7 +23,9 @@ import com.liferay.knowledge.base.model.KBArticle;
 import com.liferay.knowledge.base.model.KBFolder;
 import com.liferay.knowledge.base.service.KBArticleLocalServiceUtil;
 import com.liferay.knowledge.base.service.KBArticleServiceUtil;
+import com.liferay.knowledge.base.service.KBFolderLocalServiceUtil;
 import com.liferay.knowledge.base.service.KBFolderServiceUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -48,6 +50,34 @@ import java.util.Locale;
 public class KBArticleImpl extends KBArticleBaseImpl {
 
 	public KBArticleImpl() {
+	}
+
+	@Override
+	public String buildTreePath() throws PortalException {
+		List<KBFolder> folders = new ArrayList<>();
+
+		KBFolder folder = KBFolderLocalServiceUtil.fetchKBFolder(
+			getParentResourcePrimKey());
+
+		while (folder != null) {
+			folders.add(folder);
+
+			folder = folder.getParentKBFolder();
+		}
+
+		StringBundler sb = new StringBundler((folders.size() * 2) + 1);
+
+		sb.append("/");
+
+		for (int i = folders.size() - 1; i >= 0; i--) {
+			folder = folders.get(i);
+
+			sb.append(folder.getKbFolderId());
+
+			sb.append("/");
+		}
+
+		return sb.toString();
 	}
 
 	@Override
