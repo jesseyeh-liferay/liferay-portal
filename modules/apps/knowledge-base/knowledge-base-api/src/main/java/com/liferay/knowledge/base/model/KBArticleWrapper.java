@@ -257,6 +257,13 @@ public class KBArticleWrapper
 	}
 
 	@Override
+	public String buildTreePath()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return model.buildTreePath();
+	}
+
+	@Override
 	public java.util.List<Long> getAncestorResourcePrimaryKeys()
 		throws com.liferay.portal.kernel.exception.PortalException {
 

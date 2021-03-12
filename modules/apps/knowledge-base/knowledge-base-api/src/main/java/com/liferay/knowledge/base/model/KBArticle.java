@@ -56,6 +56,9 @@ public interface KBArticle extends KBArticleModel, PersistedModel {
 
 		};
 
+	public String buildTreePath()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
 	public java.util.List<Long> getAncestorResourcePrimaryKeys()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
