@@ -19,6 +19,7 @@ import com.liferay.knowledge.base.exception.DuplicateKBFolderNameException;
 import com.liferay.knowledge.base.exception.InvalidKBFolderNameException;
 import com.liferay.knowledge.base.exception.KBFolderParentException;
 import com.liferay.knowledge.base.exception.NoSuchFolderException;
+import com.liferay.knowledge.base.model.KBArticle;
 import com.liferay.knowledge.base.model.KBFolder;
 import com.liferay.knowledge.base.service.KBArticleLocalService;
 import com.liferay.knowledge.base.service.base.KBFolderLocalServiceBaseImpl;
@@ -34,8 +35,10 @@ import com.liferay.portal.kernel.service.permission.ModelPermissions;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -235,7 +238,33 @@ public class KBFolderLocalServiceImpl extends KBFolderLocalServiceBaseImpl {
 
 		kbFolder.setParentKBFolderId(parentKBFolderId);
 
-		kbFolderPersistence.update(kbFolder);
+		kbFolder = kbFolderPersistence.update(kbFolder);
+
+		LinkedList<Object> kbFoldersAndArticles = new LinkedList<>(
+			kbFolderLocalService.getKBFoldersAndKBArticles(
+				kbFolder.getGroupId(), kbFolder.getKbFolderId(),
+				WorkflowConstants.STATUS_ANY, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null));
+
+		while (!kbFoldersAndArticles.isEmpty()) {
+			Object kbObject = kbFoldersAndArticles.pop();
+
+			if (kbObject instanceof KBFolder) {
+				KBFolder childKBFolder = (KBFolder)kbObject;
+
+				kbFoldersAndArticles.addAll(
+					kbFolderLocalService.getKBFoldersAndKBArticles(
+						childKBFolder.getGroupId(),
+						childKBFolder.getKbFolderId(),
+						WorkflowConstants.STATUS_ANY, QueryUtil.ALL_POS,
+						QueryUtil.ALL_POS, null));
+			}
+			else if (kbObject instanceof KBArticle) {
+				KBArticle childKBArticle = (KBArticle)kbObject;
+
+				_kbArticleLocalService.updateKBArticle(childKBArticle);
+			}
+		}
 	}
 
 	@Override
