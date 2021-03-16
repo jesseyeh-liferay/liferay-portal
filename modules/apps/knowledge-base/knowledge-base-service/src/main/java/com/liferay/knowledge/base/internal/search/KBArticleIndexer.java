@@ -186,10 +186,22 @@ public class KBArticleIndexer extends BaseIndexer<KBArticle> {
 
 	@Override
 	protected void doReindex(String className, long classPK) throws Exception {
-		KBArticle kbArticle = kbArticleLocalService.getLatestKBArticle(
+		KBArticle kbArticle = kbArticleLocalService.fetchLatestKBArticle(
 			classPK, WorkflowConstants.STATUS_ANY);
 
-		reindexKBArticles(kbArticle);
+		if (kbArticle != null) {
+			reindexKBArticles(kbArticle);
+
+			return;
+		}
+
+		long kbArticleId = classPK;
+
+		kbArticle = kbArticleLocalService.fetchKBArticle(kbArticleId);
+
+		if (kbArticle != null) {
+			reindexKBArticles(kbArticle);
+		}
 	}
 
 	@Override
