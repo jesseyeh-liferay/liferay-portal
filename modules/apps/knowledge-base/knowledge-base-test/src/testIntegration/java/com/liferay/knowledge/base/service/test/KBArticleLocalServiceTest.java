@@ -30,6 +30,8 @@ import com.liferay.knowledge.base.service.KBArticleLocalServiceUtil;
 import com.liferay.knowledge.base.service.KBCommentLocalServiceUtil;
 import com.liferay.knowledge.base.service.KBFolderLocalServiceUtil;
 import com.liferay.knowledge.base.util.comparator.KBArticlePriorityComparator;
+import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -457,6 +459,91 @@ public class KBArticleLocalServiceTest {
 			StringUtil.randomString(), StringUtil.randomString(),
 			StringUtil.randomString(), StringUtil.randomString(), sourceURL,
 			null, null, _serviceContext);
+	}
+
+	@Test
+	public void testBuildTreePathAfterMoveKBArticle() throws Exception {
+		String sourceURL = StringPool.BLANK;
+
+		KBFolder kbFolder = KBFolderLocalServiceUtil.addKBFolder(
+			_user.getUserId(), _group.getGroupId(), _kbFolderClassNameId,
+			KBFolderConstants.DEFAULT_PARENT_FOLDER_ID, "kbFolder",
+			StringUtil.randomString(), _serviceContext);
+
+		KBFolder kbSubfolder = KBFolderLocalServiceUtil.addKBFolder(
+			_user.getUserId(), _group.getGroupId(), _kbFolderClassNameId,
+			kbFolder.getKbFolderId(), "kbSubfolder", StringUtil.randomString(),
+			_serviceContext);
+
+		KBArticle kbSubarticle = KBArticleLocalServiceUtil.addKBArticle(
+			_user.getUserId(), _kbFolderClassNameId,
+			kbSubfolder.getKbFolderId(), "kbSubarticle",
+			StringUtil.randomString(), StringUtil.randomString(),
+			StringUtil.randomString(), sourceURL, null, null, _serviceContext);
+
+		String originalKBSubarticleTreePath = kbSubarticle.buildTreePath();
+
+		KBArticleLocalServiceUtil.moveKBArticle(
+			_user.getUserId(), kbSubarticle.getResourcePrimKey(),
+			_kbFolderClassNameId, KBFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			kbSubarticle.getPriority());
+
+		kbSubarticle = KBArticleLocalServiceUtil.getLatestKBArticle(
+			kbSubarticle.getResourcePrimKey(), WorkflowConstants.STATUS_ANY);
+
+		String newKBSubarticleTreePath = String.valueOf(CharPool.SLASH);
+
+		Assert.assertEquals(
+			newKBSubarticleTreePath, kbSubarticle.buildTreePath());
+
+		KBArticleLocalServiceUtil.moveKBArticle(
+			_user.getUserId(), kbSubarticle.getResourcePrimKey(),
+			_kbFolderClassNameId, kbSubfolder.getKbFolderId(),
+			kbSubarticle.getPriority());
+
+		kbSubarticle = KBArticleLocalServiceUtil.getLatestKBArticle(
+			kbSubarticle.getResourcePrimKey(), WorkflowConstants.STATUS_ANY);
+
+		Assert.assertEquals(
+			originalKBSubarticleTreePath, kbSubarticle.buildTreePath());
+	}
+
+	@Test
+	public void testBuildTreePathAfterMoveKBFolder() throws Exception {
+		String sourceURL = StringPool.BLANK;
+
+		KBFolder kbFolder = KBFolderLocalServiceUtil.addKBFolder(
+			_user.getUserId(), _group.getGroupId(), _kbFolderClassNameId,
+			KBFolderConstants.DEFAULT_PARENT_FOLDER_ID, "kbFolder",
+			StringUtil.randomString(), _serviceContext);
+
+		KBFolder kbSubfolder = KBFolderLocalServiceUtil.addKBFolder(
+			_user.getUserId(), _group.getGroupId(), _kbFolderClassNameId,
+			kbFolder.getKbFolderId(), "kbSubfolder", StringUtil.randomString(),
+			_serviceContext);
+
+		KBArticle kbSubarticle = KBArticleLocalServiceUtil.addKBArticle(
+			_user.getUserId(), _kbFolderClassNameId,
+			kbSubfolder.getKbFolderId(), "kbSubarticle",
+			StringUtil.randomString(), StringUtil.randomString(),
+			StringUtil.randomString(), sourceURL, null, null, _serviceContext);
+
+		String originalKBSubarticleTreePath = kbSubarticle.buildTreePath();
+
+		KBFolderLocalServiceUtil.moveKBFolder(
+			kbSubfolder.getKbFolderId(),
+			KBFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+
+		String newKBSubarticleTreePath = StringBundler.concat(
+			CharPool.SLASH, kbSubfolder.getKbFolderId(), CharPool.SLASH);
+
+		Assert.assertEquals(
+			newKBSubarticleTreePath, kbSubarticle.buildTreePath());
+
+		KBFolderLocalServiceUtil.moveKBFolder(
+			kbSubfolder.getKbFolderId(), kbFolder.getKbFolderId());
+		Assert.assertEquals(
+			originalKBSubarticleTreePath, kbSubarticle.buildTreePath());
 	}
 
 	@Test
