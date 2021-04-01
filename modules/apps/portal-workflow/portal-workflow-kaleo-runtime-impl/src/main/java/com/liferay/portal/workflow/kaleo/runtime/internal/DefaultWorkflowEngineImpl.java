@@ -645,8 +645,8 @@ public class DefaultWorkflowEngineImpl
 					kaleoDefinition.getKaleoDefinitionId(),
 					kaleoDefinitionVersion.getKaleoDefinitionVersionId(),
 					kaleoDefinitionVersion.getName(),
-					getVersion(kaleoDefinitionVersion.getVersion()),
-					workflowContext, serviceContext);
+					kaleoDefinitionVersion.getVersion(), workflowContext,
+					serviceContext);
 
 			KaleoInstanceToken rootKaleoInstanceToken =
 				kaleoInstance.getRootKaleoInstanceToken(
