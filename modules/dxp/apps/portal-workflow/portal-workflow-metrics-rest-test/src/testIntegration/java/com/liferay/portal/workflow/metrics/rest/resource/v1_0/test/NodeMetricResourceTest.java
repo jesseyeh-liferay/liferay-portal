@@ -92,7 +92,7 @@ public class NodeMetricResourceTest extends BaseNodeMetricResourceTestCase {
 		nodeMetric1.setOverdueInstanceCount(0L);
 
 		testGetProcessNodeMetricsPage_addNodeMetric(
-			_process.getId(), "COMPLETED", nodeMetric1, "2.0");
+			_process.getId(), "COMPLETED", nodeMetric1, "2");
 
 		NodeMetric nodeMetric2 = randomNodeMetric();
 
@@ -103,7 +103,7 @@ public class NodeMetricResourceTest extends BaseNodeMetricResourceTestCase {
 		nodeMetric2.setOverdueInstanceCount(0L);
 
 		testGetProcessNodeMetricsPage_addNodeMetric(
-			_process.getId(), "COMPLETED", nodeMetric2, "2.0");
+			_process.getId(), "COMPLETED", nodeMetric2, "2");
 
 		Page<NodeMetric> page = nodeMetricResource.getProcessNodeMetricsPage(
 			_process.getId(), true, null, null, null, null, Pagination.of(1, 2),
@@ -255,7 +255,7 @@ public class NodeMetricResourceTest extends BaseNodeMetricResourceTestCase {
 		nodeMetric3.setOverdueInstanceCount(2L);
 
 		testGetProcessNodeMetricsPage_addNodeMetric(
-			_process.getId(), "COMPLETED", nodeMetric3, "2.0");
+			_process.getId(), "COMPLETED", nodeMetric3, "2");
 
 		NodeMetric nodeMetric4 = randomNodeMetric();
 
@@ -267,7 +267,7 @@ public class NodeMetricResourceTest extends BaseNodeMetricResourceTestCase {
 		nodeMetric4.setOverdueInstanceCount(1L);
 
 		testGetProcessNodeMetricsPage_addNodeMetric(
-			_process.getId(), "COMPLETED", nodeMetric4, "2.0");
+			_process.getId(), "COMPLETED", nodeMetric4, "2");
 
 		page = nodeMetricResource.getProcessNodeMetricsPage(
 			_process.getId(), true, null, null, null, null, Pagination.of(1, 2),
@@ -325,11 +325,11 @@ public class NodeMetricResourceTest extends BaseNodeMetricResourceTestCase {
 		nodeMetric5.setOverdueInstanceCount(0L);
 
 		testGetProcessNodeMetricsPage_addNodeMetric(
-			_process.getId(), "COMPLETED", nodeMetric5, "3.0");
+			_process.getId(), "COMPLETED", nodeMetric5, "3");
 
 		page = nodeMetricResource.getProcessNodeMetricsPage(
-			_process.getId(), true, null, null, null, "3.0",
-			Pagination.of(1, 2), null);
+			_process.getId(), true, null, null, null, "3", Pagination.of(1, 2),
+			null);
 
 		Node node5 = nodeMetric5.getNode();
 
@@ -438,7 +438,7 @@ public class NodeMetricResourceTest extends BaseNodeMetricResourceTestCase {
 		throws Exception {
 
 		return testGetProcessNodeMetricsPage_addNodeMetric(
-			processId, nodeMetric, "1.0");
+			processId, nodeMetric, "1");
 	}
 
 	protected NodeMetric testGetProcessNodeMetricsPage_addNodeMetric(
