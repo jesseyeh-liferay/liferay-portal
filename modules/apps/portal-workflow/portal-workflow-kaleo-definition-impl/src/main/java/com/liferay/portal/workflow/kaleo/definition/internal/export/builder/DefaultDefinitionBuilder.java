@@ -51,8 +51,9 @@ public class DefaultDefinitionBuilder implements DefinitionBuilder {
 		return doBuildDefinition(
 			_kaleoDefinitionVersionLocalService.getKaleoDefinitionVersion(
 				kaleoDefinition.getCompanyId(), kaleoDefinition.getName(),
-				StringBundler.concat(
-					kaleoDefinition.getVersion(), CharPool.PERIOD, 0)));
+				String.valueOf(kaleoDefinition.getVersion())));
+//				StringBundler.concat(
+//					kaleoDefinition.getVersion(), CharPool.PERIOD, 0)));
 	}
 
 	@Override
@@ -61,8 +62,8 @@ public class DefaultDefinitionBuilder implements DefinitionBuilder {
 
 		return doBuildDefinition(
 			_kaleoDefinitionVersionLocalService.getKaleoDefinitionVersion(
-				companyId, name,
-				StringBundler.concat(version, CharPool.PERIOD, 0)));
+				companyId, name, String.valueOf(version)));
+//				StringBundler.concat(version, CharPool.PERIOD, 0)));
 	}
 
 	protected Definition doBuildDefinition(
