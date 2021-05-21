@@ -74,8 +74,9 @@ public class ProcessWorkflowMetricsReindexer
 					kaleoDefinition.getKaleoDefinitionId(),
 					kaleoDefinition.getTitle(defaultLanguageId),
 					kaleoDefinition.getTitleMap(),
-					StringBundler.concat(
-						kaleoDefinition.getVersion(), CharPool.PERIOD, 0));
+					String.valueOf(kaleoDefinition.getVersion()));
+//					StringBundler.concat(
+//						kaleoDefinition.getVersion(), CharPool.PERIOD, 0));
 
 				_workflowMetricsReindexStatusMessageSender.sendStatusMessage(
 					atomicCounter.incrementAndGet(), total, "process");

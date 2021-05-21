@@ -369,10 +369,14 @@ public class WorkflowMetricsSLADefinitionLocalServiceImpl
 	}
 
 	protected String getNextVersion(String version) {
-		int[] versionParts = StringUtil.split(version, StringPool.PERIOD, 0);
+		try {
+			return String.valueOf(Integer.parseInt(version) + 1);
+		}
+		catch (NumberFormatException numberFormatException) {
+			int[] versionParts = StringUtil.split(version, StringPool.PERIOD, 0);
 
-		return StringBundler.concat(
-			++versionParts[0], StringPool.PERIOD, versionParts[1]);
+			return String.valueOf(++versionParts[0]);
+		}
 	}
 
 	protected void validate(
@@ -576,7 +580,7 @@ public class WorkflowMetricsSLADefinitionLocalServiceImpl
 		return buckets.size();
 	}
 
-	private static final String _VERSION_DEFAULT = "1.0";
+	private static final String _VERSION_DEFAULT = "1";
 
 	@Reference
 	private Aggregations _aggregations;
