@@ -12,26 +12,23 @@
  * details.
  */
 
-package com.liferay.portal.upgrade.v7_3_x;
+package com.liferay.portal.workflow.kaleo.internal.upgrade.v4_0_0;
 
-import com.liferay.asset.kernel.model.AssetVocabularyConstants;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
-import com.liferay.portal.upgrade.v7_3_x.util.AssetVocabularyTable;
+import com.liferay.portal.workflow.kaleo.internal.upgrade.v4_0_0.util.KaleoDefinitionVersionTable;
 
 /**
- * @author Rubén Pulido
+ * @author Jesse Yeh
  */
-public class UpgradeAssetVocabulary extends UpgradeProcess {
+public class UpgradeKaleoDefinitionVersion extends UpgradeProcess {
 
 	@Override
 	protected void doUpgrade() throws Exception {
-		alter(
-			AssetVocabularyTable.class,
-			new AlterTableAddColumn("visibilityType", "INTEGER"));
-
-		runSQL(
-			"update AssetVocabulary set visibilityType = " +
-				AssetVocabularyConstants.VISIBILITY_TYPE_PUBLIC);
+		if (!hasColumnType("KaleoDefinitionVersion", "version", "INTEGER")) {
+			alter(
+				KaleoDefinitionVersionTable.class,
+				new AlterColumnType("version", "INTEGER"));
+		}
 	}
 
 }

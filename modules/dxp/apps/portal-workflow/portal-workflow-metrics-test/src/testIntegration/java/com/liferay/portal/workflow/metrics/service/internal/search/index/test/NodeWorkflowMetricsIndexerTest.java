@@ -58,7 +58,7 @@ public class NodeWorkflowMetricsIndexerTest
 			true, "name", "start", "nodeId", kaleoNode.getKaleoNodeId(),
 			"processId", workflowDefinition.getWorkflowDefinitionId(),
 			"terminal", false, "type", NodeType.STATE.toString(), "version",
-			"1.0");
+			1);
 
 		kaleoNode = addKaleoNode(new State("end", StringPool.BLANK, false));
 
@@ -70,7 +70,7 @@ public class NodeWorkflowMetricsIndexerTest
 			false, "name", "end", "nodeId", kaleoNode.getKaleoNodeId(),
 			"processId", workflowDefinition.getWorkflowDefinitionId(),
 			"terminal", true, "type", NodeType.STATE.toString(), "version",
-			"1.0");
+			1);
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class NodeWorkflowMetricsIndexerTest
 			false, "name", "review", "nodeId", kaleoTask.getKaleoTaskId(),
 			"processId", workflowDefinition.getWorkflowDefinitionId(),
 			"terminal", false, "type", NodeType.TASK.toString(), "version",
-			"1.0");
+			1);
 		retryAssertCount(
 			_slaTaskResultWorkflowMetricsIndexNameBuilder.getIndexName(
 				workflowDefinition.getCompanyId()),
@@ -106,7 +106,7 @@ public class NodeWorkflowMetricsIndexerTest
 			false, "instanceId", 0, "processId",
 			workflowDefinition.getWorkflowDefinitionId(), "nodeId",
 			kaleoTask.getKaleoTaskId(), "name", "review", "taskId", 0,
-			"version", "1.0");
+			"version", 1);
 	}
 
 	@Test
@@ -122,7 +122,7 @@ public class NodeWorkflowMetricsIndexerTest
 			false, "name", "end", "nodeId", kaleoNode.getKaleoNodeId(),
 			"processId", workflowDefinition.getWorkflowDefinitionId(),
 			"terminal", true, "type", NodeType.STATE.toString(), "version",
-			"1.0");
+			1);
 
 		deleteKaleoNode(kaleoNode);
 
@@ -134,7 +134,7 @@ public class NodeWorkflowMetricsIndexerTest
 			false, "name", "end", "nodeId", kaleoNode.getKaleoNodeId(),
 			"processId", workflowDefinition.getWorkflowDefinitionId(),
 			"terminal", true, "type", NodeType.STATE.toString(), "version",
-			"1.0");
+			1);
 	}
 
 	@Test
@@ -155,7 +155,7 @@ public class NodeWorkflowMetricsIndexerTest
 			false, "name", "review", "nodeId", kaleoTask.getKaleoTaskId(),
 			"processId", workflowDefinition.getWorkflowDefinitionId(),
 			"terminal", false, "type", NodeType.TASK.toString(), "version",
-			"1.0");
+			1);
 	}
 
 	@Test
