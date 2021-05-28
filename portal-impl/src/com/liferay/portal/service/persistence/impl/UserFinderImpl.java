@@ -915,11 +915,14 @@ public class UserFinderImpl extends UserFinderBaseImpl implements UserFinder {
 			StringBundler sb = new StringBundler((paramsList.size() * 3) + 2);
 
 			for (int i = 0; i < paramsList.size(); i++) {
-				if (i >= 1) {
-					sb.append(" UNION ");
+				if (i == 0) {
+					sb.append(replaceJoinAndWhere(sql, paramsList.get(i)));
 				}
-
-				sb.append(replaceJoinAndWhere(sql, paramsList.get(i)));
+				else {
+					sb.append(" UNION (");
+					sb.append(replaceJoinAndWhere(sql, paramsList.get(i)));
+					sb.append(StringPool.CLOSE_PARENTHESIS);
+				}
 			}
 
 			if (orderByComparator != null) {
