@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -161,7 +162,7 @@ public class KaleoDefinitionVersionPersistenceTest {
 
 		newKaleoDefinitionVersion.setContent(RandomTestUtil.randomString());
 
-		newKaleoDefinitionVersion.setVersion(RandomTestUtil.randomString());
+		newKaleoDefinitionVersion.setVersion(RandomTestUtil.nextDouble());
 
 		newKaleoDefinitionVersion.setStartKaleoNodeId(
 			RandomTestUtil.nextLong());
@@ -227,7 +228,7 @@ public class KaleoDefinitionVersionPersistenceTest {
 		Assert.assertEquals(
 			existingKaleoDefinitionVersion.getContent(),
 			newKaleoDefinitionVersion.getContent());
-		Assert.assertEquals(
+		AssertUtils.assertEquals(
 			existingKaleoDefinitionVersion.getVersion(),
 			newKaleoDefinitionVersion.getVersion());
 		Assert.assertEquals(
@@ -256,11 +257,12 @@ public class KaleoDefinitionVersionPersistenceTest {
 
 	@Test
 	public void testCountByC_N_V() throws Exception {
-		_persistence.countByC_N_V(RandomTestUtil.nextLong(), "", "");
+		_persistence.countByC_N_V(
+			RandomTestUtil.nextLong(), "", RandomTestUtil.nextDouble());
 
-		_persistence.countByC_N_V(0L, "null", "null");
+		_persistence.countByC_N_V(0L, "null", 0D);
 
-		_persistence.countByC_N_V(0L, (String)null, (String)null);
+		_persistence.countByC_N_V(0L, (String)null, 0D);
 	}
 
 	@Test
@@ -603,9 +605,9 @@ public class KaleoDefinitionVersionPersistenceTest {
 			ReflectionTestUtil.invoke(
 				kaleoDefinitionVersion, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "name"));
-		Assert.assertEquals(
+		AssertUtils.assertEquals(
 			kaleoDefinitionVersion.getVersion(),
-			ReflectionTestUtil.invoke(
+			ReflectionTestUtil.<Double>invoke(
 				kaleoDefinitionVersion, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "version"));
 	}
@@ -648,7 +650,7 @@ public class KaleoDefinitionVersionPersistenceTest {
 
 		kaleoDefinitionVersion.setContent(RandomTestUtil.randomString());
 
-		kaleoDefinitionVersion.setVersion(RandomTestUtil.randomString());
+		kaleoDefinitionVersion.setVersion(RandomTestUtil.nextDouble());
 
 		kaleoDefinitionVersion.setStartKaleoNodeId(RandomTestUtil.nextLong());
 

@@ -1996,7 +1996,8 @@ public class KaleoDefinitionPersistenceImpl
 	 * @throws NoSuchDefinitionException if a matching kaleo definition could not be found
 	 */
 	@Override
-	public KaleoDefinition findByC_N_V(long companyId, String name, int version)
+	public KaleoDefinition findByC_N_V(
+			long companyId, String name, double version)
 		throws NoSuchDefinitionException {
 
 		KaleoDefinition kaleoDefinition = fetchByC_N_V(
@@ -2038,7 +2039,7 @@ public class KaleoDefinitionPersistenceImpl
 	 */
 	@Override
 	public KaleoDefinition fetchByC_N_V(
-		long companyId, String name, int version) {
+		long companyId, String name, double version) {
 
 		return fetchByC_N_V(companyId, name, version, true);
 	}
@@ -2054,7 +2055,7 @@ public class KaleoDefinitionPersistenceImpl
 	 */
 	@Override
 	public KaleoDefinition fetchByC_N_V(
-		long companyId, String name, int version, boolean useFinderCache) {
+		long companyId, String name, double version, boolean useFinderCache) {
 
 		name = Objects.toString(name, "");
 
@@ -2140,7 +2141,7 @@ public class KaleoDefinitionPersistenceImpl
 							}
 
 							_log.warn(
-								"KaleoDefinitionPersistenceImpl.fetchByC_N_V(long, String, int, boolean) with parameters (" +
+								"KaleoDefinitionPersistenceImpl.fetchByC_N_V(long, String, double, boolean) with parameters (" +
 									StringUtil.merge(finderArgs) +
 										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 						}
@@ -2179,7 +2180,7 @@ public class KaleoDefinitionPersistenceImpl
 	 */
 	@Override
 	public KaleoDefinition removeByC_N_V(
-			long companyId, String name, int version)
+			long companyId, String name, double version)
 		throws NoSuchDefinitionException {
 
 		KaleoDefinition kaleoDefinition = findByC_N_V(companyId, name, version);
@@ -2196,7 +2197,7 @@ public class KaleoDefinitionPersistenceImpl
 	 * @return the number of matching kaleo definitions
 	 */
 	@Override
-	public int countByC_N_V(long companyId, String name, int version) {
+	public int countByC_N_V(long companyId, String name, double version) {
 		name = Objects.toString(name, "");
 
 		FinderPath finderPath = _finderPathCountByC_N_V;
@@ -3859,7 +3860,7 @@ public class KaleoDefinitionPersistenceImpl
 			FINDER_CLASS_NAME_ENTITY, "fetchByC_N_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
-				Integer.class.getName()
+				Double.class.getName()
 			},
 			new String[] {"companyId", "name", "version"}, true);
 
@@ -3867,7 +3868,7 @@ public class KaleoDefinitionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N_V",
 			new String[] {
 				Long.class.getName(), String.class.getName(),
-				Integer.class.getName()
+				Double.class.getName()
 			},
 			new String[] {"companyId", "name", "version"}, false);
 

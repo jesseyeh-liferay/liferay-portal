@@ -82,7 +82,7 @@ public class KaleoDefinitionModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"name", Types.VARCHAR}, {"title", Types.VARCHAR},
 		{"description", Types.VARCHAR}, {"content", Types.CLOB},
-		{"scope", Types.VARCHAR}, {"version", Types.INTEGER},
+		{"scope", Types.VARCHAR}, {"version", Types.DOUBLE},
 		{"active_", Types.BOOLEAN}
 	};
 
@@ -103,12 +103,12 @@ public class KaleoDefinitionModelImpl
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("content", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("scope", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("version", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("version", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("active_", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table KaleoDefinition (mvccVersion LONG default 0 not null,kaleoDefinitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(200) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(200) null,title STRING null,description STRING null,content TEXT null,scope VARCHAR(75) null,version INTEGER,active_ BOOLEAN)";
+		"create table KaleoDefinition (mvccVersion LONG default 0 not null,kaleoDefinitionId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(200) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(200) null,title STRING null,description STRING null,content TEXT null,scope VARCHAR(75) null,version DOUBLE,active_ BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table KaleoDefinition";
 
@@ -357,7 +357,7 @@ public class KaleoDefinitionModelImpl
 		attributeGetterFunctions.put("version", KaleoDefinition::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
-			(BiConsumer<KaleoDefinition, Integer>)KaleoDefinition::setVersion);
+			(BiConsumer<KaleoDefinition, Double>)KaleoDefinition::setVersion);
 		attributeGetterFunctions.put("active", KaleoDefinition::getActive);
 		attributeSetterBiConsumers.put(
 			"active",
@@ -721,12 +721,12 @@ public class KaleoDefinitionModelImpl
 	}
 
 	@Override
-	public int getVersion() {
+	public double getVersion() {
 		return _version;
 	}
 
 	@Override
-	public void setVersion(int version) {
+	public void setVersion(double version) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
@@ -739,9 +739,9 @@ public class KaleoDefinitionModelImpl
 	 *             #getColumnOriginalValue(String)}
 	 */
 	@Deprecated
-	public int getOriginalVersion() {
-		return GetterUtil.getInteger(
-			this.<Integer>getColumnOriginalValue("version"));
+	public double getOriginalVersion() {
+		return GetterUtil.getDouble(
+			this.<Double>getColumnOriginalValue("version"));
 	}
 
 	@Override
@@ -1166,7 +1166,7 @@ public class KaleoDefinitionModelImpl
 	private String _description;
 	private String _content;
 	private String _scope;
-	private int _version;
+	private double _version;
 	private boolean _active;
 
 	public <T> T getColumnValue(String columnName) {
