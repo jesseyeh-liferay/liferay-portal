@@ -15,7 +15,6 @@
 package com.liferay.portal.workflow.kaleo.service.impl;
 
 import com.liferay.exportimport.kernel.staging.Staging;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
@@ -167,7 +166,7 @@ public class KaleoDefinitionLocalServiceImpl
 
 		_kaleoDefinitionVersionLocalService.addKaleoDefinitionVersion(
 			kaleoDefinitionId, name, title, description, content,
-			getVersion(version), serviceContext);
+			String.valueOf(version), serviceContext);
 
 		return kaleoDefinition;
 	}
@@ -376,7 +375,7 @@ public class KaleoDefinitionLocalServiceImpl
 		kaleoDefinition.setDescription(description);
 		kaleoDefinition.setContent(content);
 
-		int nextVersion = kaleoDefinition.getVersion() + 1;
+		double nextVersion = kaleoDefinition.getVersion() + 1;
 
 		kaleoDefinition.setVersion(nextVersion);
 
@@ -388,13 +387,9 @@ public class KaleoDefinitionLocalServiceImpl
 
 		_kaleoDefinitionVersionLocalService.addKaleoDefinitionVersion(
 			kaleoDefinitionId, kaleoDefinition.getName(), title, description,
-			content, getVersion(nextVersion), serviceContext);
+			content, String.valueOf(nextVersion), serviceContext);
 
 		return kaleoDefinition;
-	}
-
-	protected String getVersion(int version) {
-		return version + StringPool.PERIOD + 0;
 	}
 
 	@Reference
