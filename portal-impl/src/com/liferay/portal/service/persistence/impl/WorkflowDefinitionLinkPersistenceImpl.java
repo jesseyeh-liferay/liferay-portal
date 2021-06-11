@@ -1225,10 +1225,23 @@ public class WorkflowDefinitionLinkPersistenceImpl
 	 * @param workflowDefinitionVersion the workflow definition version
 	 * @return the matching workflow definition links
 	 */
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	#findByC_W_W(long, String, double)}
+	 */
+	@Deprecated
 	@Override
 	public List<WorkflowDefinitionLink> findByC_W_W(
 		long companyId, String workflowDefinitionName,
 		int workflowDefinitionVersion) {
+
+		return findByC_W_W(companyId, workflowDefinitionName, (double)workflowDefinitionVersion);
+	}
+
+	@Override
+	public List<WorkflowDefinitionLink> findByC_W_W(
+		long companyId, String workflowDefinitionName,
+		double workflowDefinitionVersion) {
 
 		return findByC_W_W(
 			companyId, workflowDefinitionName, workflowDefinitionVersion,
@@ -1274,10 +1287,26 @@ public class WorkflowDefinitionLinkPersistenceImpl
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching workflow definition links
 	 */
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	#findByC_W_W(long, String, double, int, int, OrderByComparator<WorkflowDefinitionLink>)}
+	 */
+	@Deprecated
 	@Override
 	public List<WorkflowDefinitionLink> findByC_W_W(
 		long companyId, String workflowDefinitionName,
 		int workflowDefinitionVersion, int start, int end,
+		OrderByComparator<WorkflowDefinitionLink> orderByComparator) {
+
+		return findByC_W_W(
+			companyId, workflowDefinitionName, (double)workflowDefinitionVersion, start,
+			end, orderByComparator);
+	}
+
+	@Override
+	public List<WorkflowDefinitionLink> findByC_W_W(
+		long companyId, String workflowDefinitionName,
+		double workflowDefinitionVersion, int start, int end,
 		OrderByComparator<WorkflowDefinitionLink> orderByComparator) {
 
 		return findByC_W_W(
@@ -1301,10 +1330,25 @@ public class WorkflowDefinitionLinkPersistenceImpl
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching workflow definition links
 	 */
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	#findByC_W_W(long, String, double, int, int, OrderByComparator<WorkflowDefinitionLink>, boolean)}
+	 */
+	@Deprecated
 	@Override
 	public List<WorkflowDefinitionLink> findByC_W_W(
 		long companyId, String workflowDefinitionName,
 		int workflowDefinitionVersion, int start, int end,
+		OrderByComparator<WorkflowDefinitionLink> orderByComparator,
+		boolean useFinderCache) {
+
+		return findByC_W_W(companyId, workflowDefinitionName, (double)workflowDefinitionVersion, start, end, orderByComparator, useFinderCache);
+	}
+
+	@Override
+	public List<WorkflowDefinitionLink> findByC_W_W(
+		long companyId, String workflowDefinitionName,
+		double workflowDefinitionVersion, int start, int end,
 		OrderByComparator<WorkflowDefinitionLink> orderByComparator,
 		boolean useFinderCache) {
 
@@ -1347,8 +1391,8 @@ public class WorkflowDefinitionLinkPersistenceImpl
 							workflowDefinitionLink.
 								getWorkflowDefinitionName()) ||
 						(workflowDefinitionVersion !=
-							workflowDefinitionLink.
-								getWorkflowDefinitionVersion())) {
+						 workflowDefinitionLink.
+							 getWorkflowDefinitionVersion())) {
 
 						list = null;
 
