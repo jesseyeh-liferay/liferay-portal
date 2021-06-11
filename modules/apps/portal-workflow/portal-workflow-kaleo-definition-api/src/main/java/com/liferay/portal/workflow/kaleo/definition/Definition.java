@@ -29,6 +29,20 @@ import java.util.Map;
 public class Definition {
 
 	public Definition(
+		String name, String description, String content, double version) {
+
+		_name = name;
+		_description = description;
+		_content = content;
+		_version = version;
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	 #Definition(String, String, String, double)}
+	 */
+	@Deprecated
+	public Definition(
 		String name, String description, String content, int version) {
 
 		_name = name;
@@ -118,7 +132,7 @@ public class Definition {
 		return Collections.unmodifiableList(_terminalStates);
 	}
 
-	public int getVersion() {
+	public double getVersion() {
 		return _version;
 	}
 
@@ -134,6 +148,6 @@ public class Definition {
 	private final String _name;
 	private final Map<String, Node> _nodesMap = new HashMap<>();
 	private List<State> _terminalStates;
-	private final int _version;
+	private final double _version;
 
 }
