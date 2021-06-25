@@ -553,7 +553,8 @@ public interface KaleoDefinitionPersistence
 	 * @return the matching kaleo definition
 	 * @throws NoSuchDefinitionException if a matching kaleo definition could not be found
 	 */
-	public KaleoDefinition findByC_N_V(long companyId, String name, int version)
+	public KaleoDefinition findByC_N_V(
+			long companyId, String name, double version)
 		throws NoSuchDefinitionException;
 
 	/**
@@ -565,7 +566,7 @@ public interface KaleoDefinitionPersistence
 	 * @return the matching kaleo definition, or <code>null</code> if a matching kaleo definition could not be found
 	 */
 	public KaleoDefinition fetchByC_N_V(
-		long companyId, String name, int version);
+		long companyId, String name, double version);
 
 	/**
 	 * Returns the kaleo definition where companyId = &#63; and name = &#63; and version = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
@@ -577,7 +578,7 @@ public interface KaleoDefinitionPersistence
 	 * @return the matching kaleo definition, or <code>null</code> if a matching kaleo definition could not be found
 	 */
 	public KaleoDefinition fetchByC_N_V(
-		long companyId, String name, int version, boolean useFinderCache);
+		long companyId, String name, double version, boolean useFinderCache);
 
 	/**
 	 * Removes the kaleo definition where companyId = &#63; and name = &#63; and version = &#63; from the database.
@@ -588,7 +589,7 @@ public interface KaleoDefinitionPersistence
 	 * @return the kaleo definition that was removed
 	 */
 	public KaleoDefinition removeByC_N_V(
-			long companyId, String name, int version)
+			long companyId, String name, double version)
 		throws NoSuchDefinitionException;
 
 	/**
@@ -599,7 +600,7 @@ public interface KaleoDefinitionPersistence
 	 * @param version the version
 	 * @return the number of matching kaleo definitions
 	 */
-	public int countByC_N_V(long companyId, String name, int version);
+	public int countByC_N_V(long companyId, String name, double version);
 
 	/**
 	 * Returns the kaleo definition where companyId = &#63; and name = &#63; and active = &#63; or throws a <code>NoSuchDefinitionException</code> if it could not be found.

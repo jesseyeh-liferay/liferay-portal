@@ -141,7 +141,7 @@ public class KaleoDefinitionWrapper
 			setScope(scope);
 		}
 
-		Integer version = (Integer)attributes.get("version");
+		Double version = (Double)attributes.get("version");
 
 		if (version != null) {
 			setVersion(version);
@@ -403,7 +403,7 @@ public class KaleoDefinitionWrapper
 	 * @return the version of this kaleo definition
 	 */
 	@Override
-	public int getVersion() {
+	public double getVersion() {
 		return model.getVersion();
 	}
 
@@ -657,7 +657,7 @@ public class KaleoDefinitionWrapper
 	 * @param version the version of this kaleo definition
 	 */
 	@Override
-	public void setVersion(int version) {
+	public void setVersion(double version) {
 		model.setVersion(version);
 	}
 

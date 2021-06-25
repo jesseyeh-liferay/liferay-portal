@@ -220,10 +220,31 @@ public class WorkflowDefinitionLinkLocalServiceImpl
 			classNameLocalService.getClassNameId(className), classPK);
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link
+	#getWorkflowDefinitionLinks(long, String, double)}
+	 */
+	@Deprecated
 	@Override
 	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(
 			long companyId, String workflowDefinitionName,
 			int workflowDefinitionVersion)
+		throws PortalException {
+
+		return getWorkflowDefinitionLinks(companyId, workflowDefinitionName, (double)workflowDefinitionVersion);
+
+		if (!WorkflowEngineManagerUtil.isDeployed()) {
+			throw new NoSuchWorkflowDefinitionLinkException();
+		}
+
+		return workflowDefinitionLinkPersistence.findByC_W_W(
+			companyId, workflowDefinitionName, workflowDefinitionVersion);
+	}
+
+	@Override
+	public List<WorkflowDefinitionLink> getWorkflowDefinitionLinks(
+		long companyId, String workflowDefinitionName,
+		double workflowDefinitionVersion)
 		throws PortalException {
 
 		if (!WorkflowEngineManagerUtil.isDeployed()) {

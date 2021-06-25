@@ -202,13 +202,7 @@ public class KaleoDefinitionVersionCacheModel
 			kaleoDefinitionVersionImpl.setContent(content);
 		}
 
-		if (version == null) {
-			kaleoDefinitionVersionImpl.setVersion("");
-		}
-		else {
-			kaleoDefinitionVersionImpl.setVersion(version);
-		}
-
+		kaleoDefinitionVersionImpl.setVersion(version);
 		kaleoDefinitionVersionImpl.setStartKaleoNodeId(startKaleoNodeId);
 		kaleoDefinitionVersionImpl.setStatus(status);
 
@@ -243,7 +237,8 @@ public class KaleoDefinitionVersionCacheModel
 		title = objectInput.readUTF();
 		description = objectInput.readUTF();
 		content = (String)objectInput.readObject();
-		version = objectInput.readUTF();
+
+		version = objectInput.readDouble();
 
 		startKaleoNodeId = objectInput.readLong();
 
@@ -312,12 +307,7 @@ public class KaleoDefinitionVersionCacheModel
 			objectOutput.writeObject(content);
 		}
 
-		if (version == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(version);
-		}
+		objectOutput.writeDouble(version);
 
 		objectOutput.writeLong(startKaleoNodeId);
 
@@ -340,7 +330,7 @@ public class KaleoDefinitionVersionCacheModel
 	public String title;
 	public String description;
 	public String content;
-	public String version;
+	public double version;
 	public long startKaleoNodeId;
 	public int status;
 

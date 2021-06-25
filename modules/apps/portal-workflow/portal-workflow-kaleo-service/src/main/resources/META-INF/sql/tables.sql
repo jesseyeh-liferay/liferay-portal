@@ -52,7 +52,7 @@ create table KaleoDefinition (
 	description STRING null,
 	content TEXT null,
 	scope VARCHAR(75) null,
-	version INTEGER,
+	version DOUBLE,
 	active_ BOOLEAN
 );
 
@@ -73,7 +73,7 @@ create table KaleoDefinitionVersion (
 	title STRING null,
 	description STRING null,
 	content TEXT null,
-	version VARCHAR(75) null,
+	version DOUBLE,
 	startKaleoNodeId LONG,
 	status INTEGER
 );

@@ -211,7 +211,7 @@ public class KaleoDefinitionCacheModel
 		content = (String)objectInput.readObject();
 		scope = objectInput.readUTF();
 
-		version = objectInput.readInt();
+		version = objectInput.readDouble();
 
 		active = objectInput.readBoolean();
 	}
@@ -273,7 +273,7 @@ public class KaleoDefinitionCacheModel
 			objectOutput.writeUTF(scope);
 		}
 
-		objectOutput.writeInt(version);
+		objectOutput.writeDouble(version);
 
 		objectOutput.writeBoolean(active);
 	}
@@ -291,7 +291,7 @@ public class KaleoDefinitionCacheModel
 	public String description;
 	public String content;
 	public String scope;
-	public int version;
+	public double version;
 	public boolean active;
 
 }

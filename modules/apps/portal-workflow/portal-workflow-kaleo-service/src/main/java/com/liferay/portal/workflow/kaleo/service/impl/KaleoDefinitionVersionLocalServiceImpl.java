@@ -94,7 +94,7 @@ public class KaleoDefinitionVersionLocalServiceImpl
 		kaleoDefinitionVersion.setTitle(title);
 		kaleoDefinitionVersion.setDescription(description);
 		kaleoDefinitionVersion.setContent(content);
-		kaleoDefinitionVersion.setVersion(version);
+		kaleoDefinitionVersion.setVersion(GetterUtil.getDouble(version));
 
 		int status = GetterUtil.getInteger(
 			serviceContext.getAttribute("status"),
@@ -210,7 +210,7 @@ public class KaleoDefinitionVersionLocalServiceImpl
 		long companyId, String name, String version) {
 
 		return kaleoDefinitionVersionPersistence.fetchByC_N_V(
-			companyId, name, version);
+			companyId, name, GetterUtil.getDouble(version));
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class KaleoDefinitionVersionLocalServiceImpl
 		throws PortalException {
 
 		return kaleoDefinitionVersionPersistence.findByC_N_V(
-			companyId, name, version);
+			companyId, name, GetterUtil.getDouble(version));
 	}
 
 	@Override
@@ -293,7 +293,7 @@ public class KaleoDefinitionVersionLocalServiceImpl
 
 		KaleoDefinitionVersion kaleoDefinitionVersion =
 			kaleoDefinitionVersionPersistence.findByC_N_V(
-				companyId, name, version);
+				companyId, name, GetterUtil.getDouble(version));
 
 		return kaleoDefinitionVersionPersistence.findByC_N_PrevAndNext(
 			kaleoDefinitionVersion.getKaleoDefinitionVersionId(), companyId,
