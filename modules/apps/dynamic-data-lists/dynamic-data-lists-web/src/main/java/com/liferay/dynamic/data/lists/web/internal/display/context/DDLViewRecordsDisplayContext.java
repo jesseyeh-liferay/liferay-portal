@@ -257,8 +257,7 @@ public class DDLViewRecordsDisplayContext {
 			navigationItem -> {
 				navigationItem.setActive(true);
 				navigationItem.setLabel(
-					HtmlUtil.extractText(
-						_ddlRecordSet.getName(_ddlRequestHelper.getLocale())));
+					_ddlRecordSet.getName(_ddlRequestHelper.getLocale()));
 			}
 		).build();
 	}
