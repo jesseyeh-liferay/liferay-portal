@@ -57,6 +57,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.portlet.PortletException;
@@ -422,6 +423,15 @@ public class AssetBrowserDisplayContext {
 	}
 
 	public boolean isShowBreadcrumb() {
+		Map<String, String[]> parameters =
+			_httpServletRequest.getParameterMap();
+
+		if (parameters.containsKey("scopeGroupType") &&
+			parameters.containsKey("scopeGroupClassPK")) {
+
+			return false;
+		}
+
 		ThemeDisplay themeDisplay =
 			(ThemeDisplay)_httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);

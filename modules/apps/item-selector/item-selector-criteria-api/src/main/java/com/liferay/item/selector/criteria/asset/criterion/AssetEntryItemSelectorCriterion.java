@@ -25,6 +25,14 @@ public class AssetEntryItemSelectorCriterion extends BaseItemSelectorCriterion {
 		return _groupId;
 	}
 
+	public long getScopeGroupClassPK() {
+		return _scopeGroupClassPK;
+	}
+
+	public int getScopeGroupType() {
+		return _scopeGroupType;
+	}
+
 	public long[] getSelectedGroupIds() {
 		return _selectedGroupIds;
 	}
@@ -53,6 +61,14 @@ public class AssetEntryItemSelectorCriterion extends BaseItemSelectorCriterion {
 		_groupId = groupId;
 	}
 
+	public void setScopeGroupClassPK(long scopeGroupClassPK) {
+		_scopeGroupClassPK = scopeGroupClassPK;
+	}
+
+	public void setScopeGroupType(int scopeGroupType) {
+		_scopeGroupType = scopeGroupType;
+	}
+
 	public void setSelectedGroupIds(long[] selectedGroupIds) {
 		_selectedGroupIds = selectedGroupIds;
 	}
@@ -78,6 +94,8 @@ public class AssetEntryItemSelectorCriterion extends BaseItemSelectorCriterion {
 	}
 
 	private long _groupId;
+	private long _scopeGroupClassPK;
+	private int _scopeGroupType;
 	private long[] _selectedGroupIds;
 	private boolean _showNonindexable;
 	private boolean _showScheduled;
