@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.taglib.util.IncludeTag;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -114,6 +115,10 @@ public class GroupSelectorTag extends IncludeTag {
 		int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
 			cur, delta);
 
+		_groups = new ArrayList<Group>();
+		_groups.add(group);
+
+		/*
 		_groups = groupItemSelectorProviderOptional.map(
 			groupItemSelectorProvider -> groupItemSelectorProvider.getGroups(
 				group.getCompanyId(), group.getGroupId(), keywords,
@@ -121,6 +126,7 @@ public class GroupSelectorTag extends IncludeTag {
 		).orElse(
 			Collections.emptyList()
 		);
+		*/
 
 		return _groups;
 	}

@@ -85,4 +85,23 @@ public class AssetEntryItemSelectorCriterion extends BaseItemSelectorCriterion {
 	private long _subtypeSelectionId;
 	private String _typeSelection;
 
+	private int _scopeGroupType;
+	private long _scopeGroupClassPK;
+
+	public int getScopeGroupType() {
+		return _scopeGroupType;
+	}
+
+	public void setScopeGroupType(int scopeGroupType) {
+		_scopeGroupType = scopeGroupType;
+	}
+
+	public long getScopeGroupClassPK() {
+		return _scopeGroupClassPK;
+	}
+
+	public void setScopeGroupClassPK(long scopeGroupClassPK) {
+		_scopeGroupClassPK = scopeGroupClassPK;
+	}
+
 }
